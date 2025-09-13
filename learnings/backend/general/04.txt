@@ -1,0 +1,146 @@
+What is Spring Boot?
+- Spring Boot is a open source java based framework used to create stand alone production grade spring based applications.
+Spring vs Spring Boot - 
+ With Spring, lots of steps involved in setting up, configuration, writing bolierplate code and deployment of the applications
+ but
+ With Spring Boot, offers a set of pre configured components or default and elimibtaing the need for a lot of boilerplate code that was involved in setting up the strping applications
+
+ Spring boot = spring framework + prebuilt configuration + embedded servers
+
+
+ Components of the Spring boot - 
+ 1. Spring boot starters 
+
+ Spring Boot Starters are a set of convenient dependency descriptors that you can include in your Spring Boot application. 
+ This provide all the necessary libraries, dependencies, and configurations for a specific functionality, like web development, data access, security, etc.
+
+ ✅ Key Idea: Instead of manually searching for and adding dozens of dependencies to your pom.xml or build.gradle, 
+Starters bundle commonly used ones together into a single, easy-to-use package.
+
+🔧 Example
+If you're building a web application, instead of adding:
+
+<dependency>spring-web</dependency>
+<dependency>spring-webmvc</dependency>
+<dependency>jackson-databind</dependency>
+<dependency>tomcat-embed-core</dependency>
+
+
+You just add:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+
+This one starter brings in all the necessary dependencies for building a Spring MVC web application.
+
+📦 Common Spring Boot Starters
+
+spring-boot-starter	- Core starter with basic Spring Boot setup
+spring-boot-starter-web	- Web apps using Spring MVC, REST, and Tomcat
+spring-boot-starter-data-jpa- 	For working with databases using Spring Data JPA
+spring-boot-starter-security - 	Adds Spring Security for authentication and authorization
+spring-boot-starter-test - 	Testing dependencies like JUnit, Mockito, Spring Test, etc.
+
+2. Auto Configuration in Spring Boot
+
+Spring Boot's auto-configuration automatically configures your application based on the dependencies on the classpath and the beans you define.
+
+🔧 How it works:
+When you include a dependency (like spring-boot-starter-web), Spring Boot sees this and automatically configures related beans like DispatcherServlet, Jackson for JSON, Tomcat server, etc.
+You don’t need to write configuration classes manually for every component — Spring Boot does it for you.
+
+🛠 Example:
+
+If you include:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+
+Spring Boot:
+
+- Configures a DataSource
+- Sets up JPA EntityManager
+- Enables Spring Data Repositories
+- Applies Hibernate properties (based on application.properties)
+
+🚨 Can you override it?
+Yes! You can override any auto-configuration by defining your own @Bean.
+
+3. Spring Boot Actuator
+
+Spring Boot Actuator adds production-ready monitoring and management features to your app with minimal effort.
+
+📦 Dependency:
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
+🧠 What does it provide?
+
+It exposes REST endpoints to monitor and manage your app, like:
+
+/actuator/health - Check app health (e.g., DB, disk, etc.)
+/actuator/info	- App metadata (version, description)
+/actuator/metrics - 	JVM memory, threads, CPU, etc.
+/actuator/env	- Current environment properties
+
+
+4. Embedded Server in Spring Boot
+Spring Boot comes with an embedded server, so you don’t need to deploy your app to an external server (like Tomcat or Jetty).
+
+🔧 Default Behavior:
+Tomcat is embedded by default (via spring-boot-starter-web)
+Alternatives: Jetty, Undertow (can be switched)
+
+
+✅ Advantages of Spring Boot
+- Fast Development – Quickly build Spring applications with minimal setup.
+- Auto Configuration – Automatically configures beans and settings based on your dependencies.
+- Embedded Server – No need for external server (Tomcat, Jetty); runs as a standalone JAR.
+- Starter Dependencies – Bundled dependencies make it easy to get started.
+- Production-Ready – Comes with Actuator for health checks, metrics, and monitoring.
+- Less Boilerplate Code – Minimal XML/config files needed.
+- Great for Microservices – Lightweight and easy to containerize (Docker, Kubernetes).
+- Easy Integration – Supports integration with databases, security, cloud, etc.
+
+❌ Disadvantages of Spring Boot
+- Less Control – Auto-configuration may hide internal behavior.
+- Large JAR Size – Includes embedded server and unused dependencies.
+- Harder to Debug – Issues with auto-configuration can be tricky to troubleshoot.
+- Not Ideal for All Apps – May not suit large, complex enterprise applications.
+- Performance Overhead – Might load unnecessary components if not optimized.
+- Learning Curve – Beginners may struggle to understand what’s happening behind the scenes.
+
+
+
+SPRING BOOT ARCHITECTURE - 
+- Spring boot has layered architecture where one layer communicates with another layer (tier) and their are few layers that exists in the spring boot application.
+- Following are the main layers - 
+1. Presentation layer
+2. Service layer
+3. Data access layer
+
+
+PRESENTATION LAYER -  Presentation layer presents the data and the application features to the user. This is tha layer where in all the controller classes exists.
+Controller accept the request from the user, validates the input that the user has given and passes it to the next layer, i.e. service layer.
+
+SERVICE LAYER - Service layer is where the business logic resides in the application. Tasks such as evaluation, decision making, processing of data
+is done at this layer. This layer also does the job of interacting with both the presentation layer & data access layer. 
+
+DATA ACCESS LAYER - Data access layer is the layer where all the repository classes resides. These repository classes are responsible for interacting with the databases like performing the 
+CRUD operations 
+
+PRESENTATION -----> SERVICE ------> DATA ACCESS 
+
+
+
+
+EXAMPLE  - 
+BROWSER -----> CONTROLLER ---> SERVICE ---> REPOSTORY ----> DATABASE (and once the data has been fetched from the cycle) , 
+data flow from DATABASE ---> REPOSTORY ---> SERVICE ---> CONTROLLER ----> BROWSER
