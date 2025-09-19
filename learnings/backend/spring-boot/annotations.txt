@@ -52,3 +52,47 @@ public class UserService {
 
     // code
 }
+
+
+
+-------------------------------------------------------- @RequestMapping Annotation -------------------------------------------------------------------------------------------------
+RequestMapping annotation is used to map your HTTP request to the controller methods
+This can be applied both at the class level or the method level
+
+1. Class Level - 
+The URL passed here will act as the base URL for all the methods in that class
+
+@RestController
+@RequestMapping(value="/api/users")
+public class UserController {
+
+  @GetMapping / url -? /api/users
+  public ResponseEntity<List<User>> fetchAllUsers() {
+        return ResponseEntity.ok(userService.fetchAllUsers());
+    }
+
+    @GetMapping("/{id}")  // url -> /api/users/{id}
+    public ResponseEntity<User> fetchSingleUser(@PathVariable Long id) {
+        return userService.fetchSingleUser(id).map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+}
+
+2. Method Level - 
+ @RequestMapping(value="/api/users", method=ReqRequestMethod.POST)
+    public ResponseEntity<String> createUser(@RequestBody User user) {
+        userService.addUser(user);
+        return ResponseEntity.ok("User added successfully");
+    }
+
+RequestMapping can also be used to multiple methods
+
+@RequestMapping(value="/submit", method = { RequestMethod.POST, RequestMethod.PUT })
+    public ResponseEntity<String> createUser(@RequestBody User user) {
+        userService.addUser(user);
+        return ResponseEntity.ok("User added successfully");
+    }
+
+@GetMapping, @PostMapping etc are just shortcuts for the  
+@RequestMapping(value="/api/users", method=RequestMethod.GET), 
+@RequestMapping(value="/api/users", method=RequestMethod.POST)

@@ -1,0 +1,45 @@
+What is ResponseEntity class?
+
+ResponseEntity class in Spring MVC gives you full control over the HTTP response.
+- You can decide which Status to send, what body to send and the headers as well.
+
+Example - @GetMapping("/api/users")
+public ResponseEntity<List<User>> fetchAllUsers() {
+    return ResponseEntity.ok(userService.fetchAllUsers()); // This will return the status code as 200 + body (List of users)
+}
+
+But if you want to change the HTTP Status code
+@PostMapping("/api/users")
+public ResponseEntity<String> createUser(@RequestBody User user) {
+    User user = userService.addUser(user);
+    return ResponseEntity.status(201).body("User created successfully)
+}
+
+If you want to add Custom headers to the response - 
+@GetMapping("/download")
+public ResponseEntity<String> downloadFile() {
+    return ResponseEntity.ok().header("Content-Disposition", "attachment; filename=file.txt").body("Download file)
+}
+
+- With an object
+@GetMapping("/user/{id}")
+public ResponseEntity<User> getUser(@PathVariable Long id) {
+    User user = userService.findById(id);
+    if (user != null) {
+        return ResponseEntity.ok(user);  // 200 with User as JSON
+    } else {
+        return ResponseEntity.notFound().build(); // 404
+    }
+}
+
+
+WHAT DOES ResponseEntity.notFound().build() mean??
+ResponseEntity.notFound - returns you the ResponseEntity.bodyBuilder and since you chose not to send any response body, you use build().
+ResponseEntity.notFound().build() -> 404 not found (status) with no response body
+
+What is ResponseEntity.bodyBuilder?
+This is an interface inside ResponseEntity. 
+This gives the partial built HTTP response (i,e. the status code is already chosen) but you have to decide what else you want to send
+So, if you write ResponseEntity.ok() - here, the status code is already set to 200 but all other things you can add
+like - 
+ResponseEntity.ok().body(user);

@@ -1,0 +1,8 @@
+what does ResponseEntity:: ok, this syntax means?
+
+This is a method reference syntax introduced in java 8+.
+
+This is equivalent to u -> ResponseEntity.ok(u)
+
+⚡ In short:
+ResponseEntity::ok = “If a value is present, wrap it in a ResponseEntity with status 200.”
