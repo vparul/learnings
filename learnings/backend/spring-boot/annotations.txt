@@ -96,3 +96,41 @@ RequestMapping can also be used to multiple methods
 @GetMapping, @PostMapping etc are just shortcuts for the  
 @RequestMapping(value="/api/users", method=RequestMethod.GET), 
 @RequestMapping(value="/api/users", method=RequestMethod.POST)
+
+
+-------------------------------------------------------- @ID Annotation -------------------------------------------------------------------------------------------------
+
+This annotation is used to define the primary key for an entity. Without this JPA won't be able to understand which is the unique identifier for the row.
+
+@Entity
+class User {
+
+    @Id 
+    private Long id; // This becomes the primary key for the user class
+    private String firstName;
+    private String lastName;
+
+}
+
+-------------------------------------------------------- @GeneratedValue Annotation -------------------------------------------------------------------------------------------------
+This annotation is used with @Id to define how to generate the unique identifier.
+Instead of manually creating the ID, hiberate (DB) will do it for you.
+Ex- 
+@Id
+@GeneratedValue(strategy = GENERATION_TYPE.AUTO)
+private Long id;
+
+There are multiple strategies - 
+1. GENERATION_TYPE.AUTO (default) - DB automatically chooses the correct strategy for you and apply it. This is flexible but not consistent across databases
+2. GENERATION_TYPE.IDENTITY - 
+ - Hiberate uses the auto increment strategy to generate the primary key values.
+ - How this works, it first inserts the value in the DB and then make a call to fetch the generated ID. So, Hiberate will not know the ID in advance. Hence, batch inserts are not effective.
+  insert first -> fetch later
+ - 
+3. GENERATION_TYPE.SEQUENCE - 
+- Hiberate uses a special sequence object to generate the values.
+- This is an independent object 
+- How this works -> Hiberate generate the sequence id, then insert the value using that id. 
+- So, Id is know in advance. Hence, batch insertion is effective.
+
+4. GENERATION_TYPE.TABLE - This is very rarely used and it uses the special table to generate IDs
