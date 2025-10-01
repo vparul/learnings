@@ -134,3 +134,68 @@ There are multiple strategies -
 - So, Id is know in advance. Hence, batch insertion is effective.
 
 4. GENERATION_TYPE.TABLE - This is very rarely used and it uses the special table to generate IDs
+
+
+-------------------------------------------------------- @OneToOne Annotation -------------------------------------------------------------------------------------------------
+
+- This defines the one to one relationship between two entities.
+Example: A user can have only one address and each address will belong to only one user
+
+@Entity
+public class User {
+
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name="address_id", referencedColumnName="id")
+  private Address address
+}
+
+CascadeType = CascadeType.ALL
+Defines what happens to the child entity when something happens to the parent entity.
+
+CascadeType.ALL → any operation (persist, merge, remove, refresh, detach) done on User is also applied to Profile.
+
+Example:
+
+userRepository.save(user); // saves both User and Profile
+userRepository.delete(user); // deletes both User and Profile
+
+3. orphanRemoval
+
+Tells JPA to delete the child entity (Profile) if it’s no longer referenced by the parent (User).
+
+Example:
+
+User user = userRepository.findById(1L).get();
+user.setProfile(null);
+userRepository.save(user); 
+// 🚀 orphanRemoval = true → Profile gets deleted from DB automatically
+
+
+Without orphanRemoval = true, the Profile would just be left in the DB with no parent
+
+
+-------------------------------------------------------- @JoinColumn Annotation -------------------------------------------------------------------------------------------------
+
+This annotation tells JPA how to create the foreign key in the DB.
+
+name → the column name in the owning table (User table here).
+
+referencedColumnName → the column in the target table (Profile table here).
+
+@JoinColumn(name = "profile_id", referencedColumnName = "id")
+
+profile_id will be created in the user table.
+
+It will reference the id column of the profile table.
+
+-------------------------------------------------------- @Query Annotation -------------------------------------------------------------------------------------------------
+This annotation helps you write custom SQL/JPQL queries in your repository. 
+
+example - @Query("SELECT u from User WHERE u.username = :username")
+private findByUsername(@Param("username") String username);
+
+-------------------------------------------------------- @Param Annotation -------------------------------------------------------------------------------------------------
+Param annotations bind the method argument with the query placeholder.
+
+example - @Query("SELECT u from User WHERE u.username = :username")
+private findByUsername(@Param("username") String username);

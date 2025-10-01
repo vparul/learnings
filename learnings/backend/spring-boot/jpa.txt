@@ -10,8 +10,6 @@ Advantages of JPA -
 
 An entity represents a table in the reslational database. An instance of an entity corresponds to a single row within that particular table.
 
-
-
 Why JPA need no args construtor?
 JPA providers like Hiberate uses Reflection to instantiate entity objects. Reflection either needs a public or a protected no args constructor to instantiate
 the entity object .

@@ -144,3 +144,9 @@ PRESENTATION -----> SERVICE ------> DATA ACCESS
 EXAMPLE  - 
 BROWSER -----> CONTROLLER ---> SERVICE ---> REPOSTORY ----> DATABASE (and once the data has been fetched from the cycle) , 
 data flow from DATABASE ---> REPOSTORY ---> SERVICE ---> CONTROLLER ----> BROWSER
+
+
+
+####
+If you want to see all the SQL queries being executed while running the application, you have to add the following command in application.properties file
+spring.jpa.show-sql=true
