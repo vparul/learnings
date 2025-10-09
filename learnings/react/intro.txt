@@ -1,4 +1,4 @@
-/*
+
 What is react
 React is an open source javascript library which is used to create single page applications. 
  Characteristics - 
@@ -35,4 +35,3 @@ Interally, React converts this into the immutable JS object,
 }
 
 React Component - This is the reusable piece of the UI that accepts an input (prop) and return a react element.
-*/

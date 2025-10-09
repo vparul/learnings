@@ -1,0 +1,72 @@
+
+There are 2 options for setting react project
+1. create-react-app
+
+- This is a starter kit for building reaact applications.
+- Major things are pre configured like ESlint, Prettier, Jest etc.
+- It uses slow and outdated technologies (webpack) for bundling, hence not recommended to use for real world applications now. You still can use it for self learning projects
+
+2. Vite
+- This is a build tool that have template for setting the react application.
+- You have to manually add ESlint configuration etc.
+- Uses fast Hot Module Replacement (HMR) and bundling, hence, now recommended for real world applications
+
+
+
+                                              HOT MODULE REPLACEMENT (HMR) - 
+HMR is teh development feature that let you see the code changes instantly without reloading the entire application.
+
+
+how HMR actually “knows” what changed and how it updates the browser without a full reload.
+
+🧠 Step 1: File Change Detection (Dev Server)
+
+- When you run a dev server (e.g., with Vite or Webpack), it watches the file system.
+- You save a file (e.g., Button.jsx).
+- The dev server detects this change instantly (via fs.watch or a watcher like chokidar).
+- It rebuilds only that module instead of the entire project.
+
+👉 So, the server already knows which module changed.
+
+🔁 Step 2: Module Graph & Dependency Tracking
+Modern bundlers maintain a module graph — basically a map of:
+Which files (modules) depend on which others.
+What imports/exports they expose.
+
+Example:
+App.jsx → imports Button.jsx
+         → imports Header.jsx
+
+
+If Button.jsx changes:
+ - The bundler looks up the graph.
+ -Finds all modules that depend on it.
+ - Marks only those as “affected.”
+
+📡 Step 3: Sending the Update to Browser (WebSocket)
+The dev server communicates with the browser through a WebSocket connection.
+When it detects a change, it sends a small message like in JSON format:
+
+{
+  "type": "update",
+  "updates": [
+    {
+      "path": "/src/Button.jsx",
+      "timestamp": 16999999999
+    }
+  ]
+}
+
+
+No full reload, just a signal that says “this module changed.”
+
+🧭 Step 4: HMR Runtime on the Browser
+The browser has a small HMR runtime script injected by the bundler.
+This script listens for update messages from the dev server.
+When it receives one, it:
+Fetches the updated module (e.g., new compiled JS for Button.jsx),
+Executes it in place without reloading the page,
+Replaces the old module in the module graph,
+Notifies any dependent modules if needed.
+
+👉 That’s why your screen updates instantly — it’s just replacing a JS chunk, not reloading everything.

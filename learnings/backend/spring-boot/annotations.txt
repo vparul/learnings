@@ -174,6 +174,22 @@ userRepository.save(user);
 Without orphanRemoval = true, the Profile would just be left in the DB with no parent
 
 
+-------------------------------------------------------- @ManyToOne Annotation -------------------------------------------------------------------------------------------------
+
+This annotation means that many child entities belong to one parent entity.
+
+ex- @ManyToOne
+@JoinColumn(name = "user_id", nullable = false)
+private User user;
+
+What this means
+
+Each Cart belongs to one User.
+But one User can have many Carts.
+
+That’s exactly a Many-to-One relationship:
+Many carts → One user
+
 -------------------------------------------------------- @JoinColumn Annotation -------------------------------------------------------------------------------------------------
 
 This annotation tells JPA how to create the foreign key in the DB.

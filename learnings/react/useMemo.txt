@@ -1,4 +1,3 @@
-/*
 useMemo 
 - useMemo is a hook that is used for preformance optimization. It cached the computed value, runs the function during render time and store the result
 until the dependency changed.
@@ -51,7 +50,6 @@ What happens here:
 - On the next render, useMemo runs again, calls setCount again…
 - 🔁 Infinite loop until React throws an error.
 
-*/
 // example -
 
 // import React, { useMemo, useState } from "react";
