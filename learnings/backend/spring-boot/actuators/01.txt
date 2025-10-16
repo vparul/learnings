@@ -1,0 +1,180 @@
+Spring boot actuators are built in tools that helps us manage our applications in production. It gives us some endpoint 
+to manage our application for health-check, environment properties, CPU utilisation etc.
+You can use tools like grafana etc for monitoring purposes.
+
+Once you just add the Actuator dependency in Spring Boot (without exposing anything extra), the default behavior is:
+👉 It exposes only one endpoint: http://localhost:8080/actuator
+
+this endpoint returns a JSON response listing which actuator endpoints are currently available and exposed over HTTP.
+
+For example, the response typically looks like:
+
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/actuator",
+      "templated": false
+    },
+    "health": {
+      "href": "http://localhost:8080/actuator/health",
+      "templated": false
+    }
+  }
+}
+
+
+📝 Explanation:
+self → link to the actuator root itself.
+health → is the only exposed endpoint by default, so you can also visit: http://localhost:8080/actuator/health
+
+and see something like:
+{
+  "status": "UP"
+}
+
+
+For exposing all the endpoints, you can add the following configurations in the application.properties file
+management.endpoints.web.exposure.include=*
+- This will expose all the endpoints that might include some sensitive data so make sure to expose few APIs in production ready application. In development mode, exposing all won;t affect anything
+
+If you want to just expose one or two endpoint, you can do it by adding the following in application.properties file
+management.endpoints.web.exposure.include=shutdown,health,beans
+
+---------------------------------------SOME COMMON ENDPOINTS--------------------------------------------------
+
+1. /actuator/health - 
+This endpoint tell the overall health of the application. This is used for monitoring purposes. This tells whether your application is running correctly or not.
+
+This endpoint by default share the status of the application in json format - 
+{ status: "UP" }
+
+if you wan to get the overall information of the application, you can set the property in application.properties file
+management.endpoint.health.show-details=always
+
+This will expose all the details of the application like DB status, ssl status, disk status etc some of which can be sensitive. So, it is 
+not recommended to use always in production application.
+
+You can set other values - 
+1. always - discussed above
+2. never - (Default in production) Don’t show any health details — only status.
+3. when-authorized - Show details only if the user is authorized (has correct role).
+
+
+2. /actuator/info - 
+
+This endpoint exposes the arbitary information about your application like build time, app version, app description, name etc.
+It is commonly used by CI/CD pipelines, dashboards etc for application metadata.
+
+If no info is set, by default, it returns empty json object.
+
+for enabling it - management.endpoint.info.enabled=true
+Let's say your application.properties file has the following configuration - 
+info.app.name=My Spring Boot App
+info.app.version=1.0.3
+info.app.description=Demo of actuator info endpoint
+info.company.name=Acme Inc
+
+So, /actuator/info will return the following json object - 
+{
+  "app": {
+    "name": "My Spring Boot App",
+    "version": "1.0.3",
+    "description": "Demo of actuator info endpoint"
+  },
+  "company": {
+    "name": "Acme Inc"
+  }
+}
+
+
+3. /actuator/metrics - 
+This endpoint exposes the application performance and system metries like 
+JVM memory usage
+CPU load
+HTTP request statistics
+GC activity
+Thread count
+Datasource metrics etc
+
+You can see the list of the metric name by hitting the endpoint - http://localhost:8080/actuator/metrics
+
+{
+  "names": [
+    "jvm.memory.used",
+    "jvm.memory.max",
+    "jvm.gc.memory.allocated",
+    "jvm.threads.live",
+    "system.cpu.usage",
+    "process.uptime",
+    "http.server.requests",
+    "logback.events",
+    "tomcat.sessions.active",
+    ...
+  ]
+}
+
+then let's say you want to see jvm.memory.used -> you have to hit the endpoint http://localhost:8080/actuator/metrics/jvm.memory.used
+
+4. /actuator/loggers
+This endpoint exposes the current log levels for all the packages/ classes without restarting the applictaion.
+
+GET /actuator/loggers
+Shows all loggers and their current effective levels (INFO, DEBUG, etc.)
+{
+  "levels": ["OFF", "ERROR", "WARN", "INFO", "DEBUG", "TRACE"],
+  "loggers": {
+    "root": {
+      "configuredLevel": "INFO",
+      "effectiveLevel": "INFO"
+    },
+    "com.yourapp": {
+      "configuredLevel": null,
+      "effectiveLevel": "INFO"
+    }
+  }
+}
+
+If you want to change the log level dynamically, you have to got to postman and change the type from get to post and add body and hit 
+POST /actuator/loggers/com.yourapp.service
+
+{
+  "configuredLevel": "DEBUG"
+}
+
+you will get the result as - 
+{
+  "effectiveLevel": "DEBUG",
+  "configuredLevel": "DEBUG"
+}
+
+configuredLevel -> the log level set explicitly
+effectiveLevel -> the initial log level
+
+
+5. /actuator/beans
+This endpoint lists all the beans in the Spring ApplicationContext, including:
+Bean name
+Bean type
+Scope
+Dependencies
+
+This is useful for debugging what Spring has actually instantiated. It can produce very large output — so be careful in production.
+
+
+6. /actuator/shutdown
+This endpoint lets you shut down the application gracefully( this means that it will first complete all the request and then will sht down the application).
+This is not enabled by default as this is a very risky endpoint.
+
+For enabling - 
+management.endpoint.shutdown.enabled=true
+
+You must send a POST request (GET not supported):
+POST /actuator/shutdown
+curl -X POST http://localhost:8080/actuator/shutdown
+
+{
+  "message": "Shutting down, bye..."
+}
+
+Then the app will terminate cleanly.
+This should be secured heavily or used only in internal/admin tools. Never expose this publicly.
