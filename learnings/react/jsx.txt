@@ -57,3 +57,9 @@ You’re controlling every step manually.
 📝 In short:
 “Declarative” = Describe the end result.
 “Imperative” = Tell the system exactly what to do step by step.
+
+
+Rules of JSX - 
+1. A piece of JSX can only return a single root element. If you want to return, you can use<></> or React.Fragment
+2. You can write any piece of JS expression inside JSX enclosed in {}
+3. But you cannot have any if else or switch statement .

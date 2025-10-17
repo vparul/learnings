@@ -1,0 +1,25 @@
+Props are the communication channel between the parent and the child component. We pass the data from the parent component to the child component with the help of props
+Parent component state is actually the prop for the child component.
+
+const Parent = () => {
+    return (
+        <Child name="hello" />
+    )
+}
+
+const Child = (props) => { // you can destructure here as well
+    const { name } = props
+    return (
+        <div>{name}</div>
+    )
+}
+
+- We can pass anything in props like array, object, boolean , component etc
+- Props are read-only. You cannot change the value of props from the child component. Hence, props are immutable
+- If you want to change the value of props, it can only be donw by changing the state of the parent component.
+- Why props are immutable ? Mutating the props will affect the parent component creating the side effect which will make the component impure.
+- components have to be pure so that react can optimise apps, avoid bugs and make app predictable.
+
+Pure component is 
+- It always renders the same output when given the same name.
+- It doesn’t modify anything outside itself (like global variables, DOM, etc)
