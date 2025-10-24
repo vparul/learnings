@@ -1,0 +1,23 @@
+State is the component's memory. State is a way to store and manage data that can change over the component's lifecycle. 
+It allows the developer to - 
+1. Update the component's view by re-rendering.  Updating component state trigger react to re render the component.
+2. Persist local variable between renders.
+
+In function component, we declare the state using useState hook - 
+  const [step, setStep] = useState(0); // 0 is the default value. You can also leave it empty
+
+
+Ques - Why doesn’t React re-render when I do count = count + 1 instead of using setCount?
+Ans - 
+When we write:
+const [count, setCount] = useState(0);
+React creates an internal state, and count is just a copy of that state at the time of rendering.
+
+When we do: count = count + 1;
+
+we’re only updating the local variable, not React’s internal state.
+Since React doesn’t know about this change, it won’t re-render.
+
+But when we use: setCount(count + 1);
+we update React’s internal state, which tells React that a state change has happened.
+React then triggers a re-render with the updated value.
