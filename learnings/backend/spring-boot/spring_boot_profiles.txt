@@ -1,0 +1,42 @@
+🌱 Spring Boot Profiles 
+
+Spring Boot profiles allow you to define and manage different configurations for different environments (e.g., dev, test, prod).
+
+Purpose:
+To separate environment-specific settings like database URLs, ports, or API keys.
+
+File Structure Example:
+
+application.yml
+application-dev.yml
+application-test.yml
+application-prod.yml
+
+
+Activation Methods:
+
+In application.yml:
+spring.profiles.active=dev
+
+Command line:
+--spring.profiles.active=prod
+
+Environment variable:
+SPRING_PROFILES_ACTIVE=test
+
+Profile-specific Beans:
+
+@Profile("dev")
+@Bean
+public DataSource devDataSource() { ... }
+
+
+Default Profile:
+If none is active, Spring uses the default profile.
+
+Example Run:
+
+java -jar app.jar --spring.profiles.active=prod
+
+
+✅ Profiles help manage clean, environment-specific configurations in Spring Boot applications.

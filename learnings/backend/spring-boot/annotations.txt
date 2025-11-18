@@ -215,3 +215,35 @@ Param annotations bind the method argument with the query placeholder.
 
 example - @Query("SELECT u from User WHERE u.username = :username")
 private findByUsername(@Param("username") String username);
+
+
+-------------------------------------------------------- @Value Annotation -------------------------------------------------------------------------------------------------
+This annotation is used to inject the values from - 
+1. application.properties file
+2. System settings
+3. environment variables
+
+1. From application.properties file - 
+app.name="My Application"
+
+in your code - 
+@Value("${app.name}")
+private String appName;
+
+
+2. You can also provide default values to it - 
+@Value("${app.name:"Hello World"}")
+private String appName;
+
+3. Inject a System Environment Variable
+@Value("${JAVA_HOME}")
+private String javaHome;
+
+Precedence (Highest to Lowest) - 
+1. Command-line arguments (java -jar app.jar --server.port=9000)
+2. Java system properties (-Dserver.port=8085)
+3. OS environment variables (SERVER_PORT=7000)
+4. application.properties or application.yml
+5. Profile-specific properties (application-dev.properties, application-prod.properties)
+6. @PropertySource in code (@PropertySource("classpath:custom.properties"))
+7. Default values in @Value annotation (@Value("${app.name:DefaultName}"))

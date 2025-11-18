@@ -1,0 +1,17 @@
+What is Postgres?
+Postgres is an open source relational database which is popluar for its powerful features.
+It uses SQL for managing and querying data.
+
+⚙️ When to use PostgreSQL
+
+✅ Complex queries and relationships between data (e.g., multiple tables with joins).
+✅ Strict data integrity( Data integrity ensures your data is correct, complete, and doesn’t get changed accidentally or incorrectly.) 
+(banking, healthcare, ERP systems, etc.).
+✅ Scalability and reliability for large datasets.
+✅ Open-source + enterprise-level performance.
+
+
+🚀 When not to use PostgreSQL
+- You’re building a small, quick MVP with few data relations → use SQLite.
+- You need ultra-fast reads with simple schema → MySQL might be better.
+- You need a schema-less, document-first approach → consider MongoDB.

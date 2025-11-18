@@ -1,0 +1,50 @@
+Externalized configuration allows you to keep the configuration setiings of your application separate from the codebase.
+
+These settings could include:
+Database connection strings
+API keys and credentials
+File paths
+Server ports
+Feature flags
+Environment-specific URLs (e.g., dev vs prod APIs)
+
+⚙️ Ways to Externalize Configuration
+1. Environment Variables
+
+Ideal for containers and cloud platforms (e.g., Docker, Kubernetes)
+
+
+2. Configuration Files
+Store in .env, JSON, YAML, XML, or INI files
+Example (config.yaml):
+database:
+  host: localhost
+  port: 3306
+  user: admin
+  password: secret
+
+3. Command-line Arguments
+Pass values during program execution:
+python app.py --db_url=mysql://localhost:3306/dev
+
+4. Centralized Configuration Servers
+Used in microservices and distributed systems
+Examples: Spring Cloud Config Server, Consul, etcd, AWS Parameter Store
+
+5. Secrets Managers
+Manage sensitive data (passwords, API keys) securely
+Examples: AWS Secrets Manager, Azure Key Vault, HashiCorp Vault
+
+❌ Why Not Hardcode Configuration?
+Lacks flexibility - Need to edit and redeploy code for every change. Can lead to downtime of your application
+Security risks	 - Credentials exposed in version control
+Environment issues - Code won’t easily adapt between dev, test, and prod
+Difficult automation - CI/CD pipelines rely on environment-based configs
+Poor scalability - Managing configs across many services is error-prone
+ 
+✅ Benefits of Externalized Configuration
+Portability: Move easily between environments
+Security: Keep secrets out of source code
+Maintainability: Modify configs without redeployment
+Automation: Supports CI/CD and containerized apps
+Scalability: Simplifies management across microservices

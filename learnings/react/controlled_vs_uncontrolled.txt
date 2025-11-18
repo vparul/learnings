@@ -1,0 +1,73 @@
+What is the difference between controlled and uncontrolled React Components?
+
+🎛️ 1. Controlled Components
+
+A controlled component is one where React controls the form data via state.
+That means the input’s value (or checked state) is always determined by React state.
+
+✅ Example: Controlled Input
+import { useState } from "react";
+
+function ControlledExample() {
+  const [name, setName] = useState("");
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={name}              // ← Controlled by React state
+        onChange={(e) => setName(e.target.value)} // ← Updates state
+      />
+      <p>Hello, {name}</p>
+    </div>
+  );
+}
+
+🧠 What’s Happening:
+value={name} → React decides what’s displayed in the input.
+When you type, onChange updates state, and React re-renders with the new value.
+The source of truth is React state, not the DOM.
+
+✅ Pros:
+You can easily validate, modify, or reset data.
+Works well with forms where you need to control or submit the input data.
+
+⚠️ Cons:
+Slightly more code.
+Each keystroke re-renders the component (usually fine).
+
+🕹️ 2. Uncontrolled Components
+An uncontrolled component is one where the DOM itself controls the form data, not React.
+You read the value using a ref when needed instead of React state.
+
+✅ Example: Uncontrolled Input
+import { useRef } from "react";
+
+function UncontrolledExample() {
+  const inputRef = useRef();
+
+  const handleSubmit = () => {
+    alert(`Name: ${inputRef.current.value}`); // Access value from DOM
+  };
+
+  return (
+    <div>
+      <input type="text" ref={inputRef} />  {/* No state, uncontrolled */}
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
+  );
+}
+
+🧠 What’s Happening:
+
+The input manages its own internal state (like normal HTML).
+You only access the value when needed via ref.
+React doesn’t re-render when the input value changes.
+
+✅ Pros:
+Simpler for non-dynamic forms.
+Can be slightly faster (no re-renders on typing).
+
+⚠️ Cons:
+Harder to validate or modify inputs dynamically.
+You can’t easily reset or track live changes.

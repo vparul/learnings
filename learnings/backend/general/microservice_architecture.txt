@@ -1,0 +1,28 @@
+microservice Architecture is when an application is build as the collection of small, independent services, each responsible for a single business logic.
+
+each service will have - 
+1. Its own codebase
+2. Can develop, deploy as a independent single unit
+3. Each service can communicate with other services through rest calls (REST API)
+
+When to use microservice Architecture - 
+1. When you have a large team working parallely
+2. When you have a large application with multiple domains (payment, user, inventory etc)
+3. You need independent Scalability
+4. You want flexibility in technology choices.
+
+Advantages - 
+1. Scale only what’s needed (e.g., just the order service).
+2. If one service fails, others keep working.
+3. Teams can build and deploy independently.
+4. Use different languages or databases for each service.
+5. Deploy or roll back individual services.
+
+Disadvantages - 
+1. Many moving parts, hard to monitor and debug.
+2. Network latency between services.
+3. Needs DevOps setup (Docker, Kubernetes, etc.).
+4. Harder to maintain data consistency across services.
+5. More infrastructure and management overhead.
+
+Amazon, Netflix, and Uber use microservices

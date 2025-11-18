@@ -1,0 +1,22 @@
+monolithic Architecture is when an entire application is build an a single program. All the features (cart, payment, user) etc packed and run as a single program.
+Structure - 
+mono_repo 
+    -> src
+         -> frontend (React , angualr etc)
+         -> backend (business logics, APIs, services)
+         -> database (models, migrations, database scripts)
+         -> shared (utils, config)
+    -> package.json
+    -> readme.md
+    -----
+
+Disadvantages - 
+1. Difficult to scale. Since, you cannot scale a single file, you have to scale the entire application
+2. You are stuck with a initial tech stack for a long Period 
+3. It becomes difficult to maintain the project as any change would require you to redeploy the entire application
+4. If you have a large team working on the same project, it would be difficult to maintain code changes etc
+
+Advantages - 
+1. Prefered if you are building a quick small MVPs
+2. When you team is small
+3. Things are tightly coupled
