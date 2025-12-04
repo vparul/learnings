@@ -1,0 +1,24 @@
+Inter-service communication refers to how microservices talk to each other.
+In Spring Boot microservices, there are multiple patterns depending on whether communication is synchronous, asynchronous, direct, or through a broker.
+
+- TWO MAIN TYPES OF INTER-SERVICE COMMUNICATION
+
+1️. Synchronous communication (Request–Response): The caller waits for the response.
+
+Common options:
+- REST (HTTP)
+
+- RestTemplate (deprecated for new dev)
+-  WebClient
+- RestClient
+- Http interfaces
+- OpenFeign (best for declarative calls)
+
+2. Asynchronous communication (Event-driven): Caller does NOT wait for response.
+
+Common options:
+RabbitMQ
+Kafka
+AWS SNS/SQS
+Google Pub/Sub
+Event streaming with Kafka

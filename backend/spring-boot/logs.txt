@@ -1,0 +1,20 @@
+Spring boot doesn’t log message directly.
+ 
+ CODE [logger.info("Message")] ---> SLF4J (Logging Facade) [Acts as a middleman] ---> Logging Framework (Logback (default)etc) ---> Log output [Console, file, etc]
+
+ SLF4J (Simple Logging Facade for Java) - Interface (middleman) for logging, It forwards logs to the actual logging framework.
+
+ Logback (Default in Spring Boot) - Processes logs, applies formatting, filtering and decides where to send logs
+
+ Log output - The final destination for logs (Console, File, Database, etc)
+
+Log Monitoring system --> Loki + Grafana , Kibana + EleasticSearch etc
+
+
+By default, Springboot logs only Warn, error and info logs. If you want to see debug, trace logs as well, you need to change the application configuration.
+
+in application.properties file 
+logging.level.root: TRACE -> This setting will enable all the logs (trace, debug, warn, error and info)
+logging.level.root: INFO -> remaining will have this log setting
+logging.level.com.ecommerce.user: TRACE -> All details logs will have this config that comes under this folder
+

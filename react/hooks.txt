@@ -1,0 +1,36 @@
+⚙️ What Are Hooks?
+
+Hooks are special functions introduced in React 16.8 that let you use state and other React features (like lifecycle methods) without writing a class.
+Examples:
+
+useState() → state management
+useEffect() → side effects (like fetching data or updating the DOM)
+useContext(), useRef(), useMemo(), useCallback(), etc.
+
+🌟 Benefits of Using Hooks
+1. 🧠 Simpler, More Readable Code
+Hooks let you manage state and logic directly inside functional components — no need for verbose class components, constructors, or this.
+
+2. 🔁 Reuse Stateful Logic Easily
+Hooks make it easy to share logic between components using custom hooks — without changing the component hierarchy or using higher-order components.
+
+📜 The Rules of Hooks
+
+React enforces two key rules to make sure Hooks work properly:
+
+Rule 1: Only Call Hooks at the Top Level
+Don’t call Hooks inside loops, conditions, or nested functions.
+Always call them at the top level of your React function.
+Why?
+React relies on the order of Hooks to track state across renders.
+Changing that order breaks the mapping.
+
+Rule 2: Only Call Hooks from React Functions
+
+Call Hooks only inside:
+React functional components
+Custom Hooks (functions whose names start with use)
+
+🛠️ React Enforces These Rules
+If you use ESLint, you can add this rule to automatically catch violations:
+npm install eslint-plugin-react-hooks --save-dev

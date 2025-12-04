@@ -1,0 +1,104 @@
+What is docker?
+Docker is a tool that helps developers run applications in isolated boxes called containers.
+Each container has everything your app needs — code, libraries, system tools, etc. — so it works the same way everywhere (on your laptop, on someone else’s machine, or on a server).
+
+Why do we need Docker:
+Without Docker:
+An app might work on your computer but fail on another because of missing libraries, OS differences, or version mismatches (“It works on my machine” problem).
+
+With Docker:
+- You package your app with all its dependencies → it runs anywhere, exactly the same.
+- You can run multiple apps on the same machine without conflicts.
+- It’s faster and lighter than virtual machines.
+- It makes deployment, testing, and scaling much easier.
+
+
+Architecture of Docker - 
+1. Docker Client (CLI) - The end user give commands to the docker through the docker client. Its like giving orders what to do
+The commands are like - 
+Docker run
+Docker build 
+
+etc ..
+
+The client sends the commands to  Docker Daemon(the service which do the real work)
+
+2. Docker Engine (Docker Host)
+It contains 2 main parts - 
+1. Docker Daemon
+2. Containers & Images
+
+Docker Daemon - 
+- This runs in the background and wait for instructions from the CLI.
+- It is kind of brain of docker 
+- It do the following things - 
+    a. Push/ pull docker images from the registry
+    b. Manages Networks & Volumns 
+    c. Build docker images 
+    d. Run containers
+
+Docker Images - 
+This is a read-only template or blueprint used to create containers.
+It includes the application code, dependencies, libraries etc.
+You usually define an image using a Dockerfile (explained below).
+
+Example:
+node:18 → official Node.js image
+ubuntu:latest → Ubuntu OS image
+
+Docker Containers - A container is a running instance of a Docker image.
+You can have multiple containers from the same image.
+Each container is isolated but shares the same OS kernel → that’s what makes Docker lightweight.
+You can start, stop, remove, or restart containers anytime.
+
+Docker Networking - Docker provides virtual networks to allow containers to talk to each other or the outside world.
+
+Common types:
+bridge → default, connects containers on same host
+host → shares host network
+none → fully isolated
+
+Networking lets containers communicate safely.
+
+Docker Volumes - Containers are temporary; when they stop, data inside them is lost.
+
+Volumes are used to store data permanently outside containers.
+Volume = A folder to save data that lives even after container stops.
+
+3. Docker Registry
+
+A Docker Registry is a storage hub for images.
+The most common one is Docker Hub.
+You can also create private registries (like your own image store).
+
+
+Dockerfile — The Heart of Docker Images
+
+A Dockerfile is a simple text file with instructions to build an image.
+
+Example:
+# Step 1: Start from a base image
+FROM node:18
+
+# Step 2: Set working directory
+WORKDIR /app
+
+# Step 3: Copy code to container
+COPY . .
+
+# Step 4: Install dependencies
+RUN npm install
+
+# Step 5: Run the app
+CMD ["npm", "start"]
+
+
+
+🧩How Everything Works Together
+
+Here’s the step-by-step flow:
+1️⃣ You write a Dockerfile
+2️⃣ You build an Image using `docker build`
+3️⃣ The Image is stored locally or in a Registry
+4️⃣ You run a Container using `docker run`
+5️⃣ The Container executes your app in an isolated environment

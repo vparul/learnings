@@ -1,0 +1,34 @@
+Observability is the ability to understand the internal state of a system by analysing the data it produces - like logs, metric & traces
+
+Monitoring vs Observability
+
+Monitoring - Watching system health and performance. Ex - Checking if the server is running
+Observability - Understanding why things happened. Ex - Debugging why a request failed
+
+Logs - 
+Logs are text based records of events happening in a system.
+Tools - ELK (Elasticsearch, Logstach, kibana)
+
+Ex - In a food delivery app, a log might look like - 
+[2025-01-19 12:00:15] INFO OrderService: Order ID 1234 placed successfully;
+[2025-01-19 12:00:20] ERROR PaymentService: Payment failed for Order ID 1234
+
+
+Metrics - 
+Metrics are numerical values that help track system performace over time.
+
+Tools - Prometheus + grafana
+
+Ex - in a video streaming app, some imporant metrics are: 
+CPU usage: 80% (Is system overloaded?)
+Response Time: 500ms (Are users experiencing delays?)
+
+Traces - 
+Traces track how a request moves across multiple microservices.
+Tools - Zipkin, Jaeger
+Ex- In a ride sharing app, when a user books a reide, the request passes through :
+User service (Verify user)
+Ride Service (Find available riders)
+Payment Servuce (Process payment)
+Notification Service (Send confirmation)
+

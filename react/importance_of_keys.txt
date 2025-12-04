@@ -1,0 +1,9 @@
+Consequence of using array indices as the value for keys in React
+Performance issues
+When array indices are used as keys, React may not efficiently update the DOM. If the order of items in the array changes, React will not be able to correctly identify which items have been added, removed, or moved. This can lead to unnecessary re-renders and decreased performance.
+
+Incorrect component updates
+Using array indices as keys can cause bugs in your application. For example, if the order of items changes, React may reuse the same component instances for different items, leading to incorrect state and props being passed to components. This can result in unexpected behavior and hard-to-debug issues.
+
+Better approach
+Instead of using array indices, use unique identifiers for keys. This ensures that React can efficiently manage and update the DOM.

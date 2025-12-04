@@ -1,0 +1,33 @@
+JPA stands for Jakarta Persistance API and it's a framework that helps Java application store, retrieve, update and delete data in the database 
+without writing complex SQL queries.
+
+Advantages of JPA -
+1. Easy and simple 
+2. Make queries easier. It helps us write queries in the form of entities rather than SQL.
+3. Allows to save and update objects
+4. Easy integration with springboot
+
+
+An entity represents a table in the reslational database. An instance of an entity corresponds to a single row within that particular table.
+
+Why JPA need no args construtor?
+JPA providers like Hiberate uses Reflection to instantiate entity objects. Reflection either needs a public or a protected no args constructor to instantiate
+the entity object .
+Without this JPA won't be able to create objects for the entity class while reading the data from database.
+
+
+Reflection - Reflection in Java is a powerful feature that allows code to inspect and manipulate itself at runtime.
+Reflection lets your program:
+ - Look inside classes, interfaces, fields, and methods while the program is running.
+ - Create objects, call methods, or change fields — even if you don’t know the class at compile time.
+ - Java provides a built-in API for reflection in the java.lang.reflect package.
+
+Downsides of Reflection:
+ - Slower performance than regular code.
+ - Breaks encapsulation (can access private members).
+ - More error-prone — errors only show up at runtime.
+
+ JPA uses reflection to:
+ - Create entity objects from database rows (via no-args constructor).
+ - Set private fields when loading data.
+ - Call getter/setter methods for mapping.

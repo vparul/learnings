@@ -1,0 +1,3 @@
+DTO  (Data transfer object) is the plain java class that is you to share data between multiple layers(client, service etc) without exposing entire database
+attributes.
+

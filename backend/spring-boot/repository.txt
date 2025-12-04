@@ -1,0 +1,30 @@
+Repository is an interface that lets us communicate with database without wrirting SQL queries. 
+It acts as a middleman between the Java code and the database.
+
+Example - 
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    // Here User is the entity Class & Long is the type of primary Key
+}
+
+Why do we need a repository  ?
+1. No boilerplate code -  Without this we have to write a lot of SQL codes that is no longer needed when dealing with repository.
+2. Reuseability - It provides a lot of methods like save, finById etc which can be used across multiple services.
+3. Seperation of concerns - Each layer has a single responsibility i.e 
+    controller -> handles all HTTP requests
+    entity -> DB table represenattion
+    service -> contains business logic
+    repository -> DB communication
+
+
+CrudRepository vs JpaRepository
+
+CruuRepository -> It provides methods that supports only CRUD operations (Create, read, update & delete)
+ex - findAll(), findById(), save(), delete() etc.
+
+JpaRepository -> It provides Crud Operations plus jpa specific operations as well. So, it is an extansion of CrudRepository
+Ex -> 1. Sorting (findAll(Sort sort)), Pagination (findAll(Pageable pageable)), Batch entries (saveAll()), Flush etc(saveAllAndFlush())
+
+syntax -> 
+public class UserRepository extends CrudRepository<User, Long>{}
+public class UserRepository extends JpaRepository<User, Long>{}

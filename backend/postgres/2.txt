@@ -1,0 +1,62 @@
+For connecting postgreSQL database - 
+you need to set the following configurations - 
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/ecomdb 
+here, jdbc - protocol
+postgresql - name of the database
+localhost:5432 - url
+ecomdb - name of the db tables
+
+spring.datasource.username=parul 
+spring.datasource.password=parul
+
+
+
+spring.jpa.database=POSTGRESQL
+spring.jpa.show-sql=true
+spring.jpa.hiberate.ddl-auto=update
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+🧩 1. spring.jpa.database=POSTGRESQL
+
+Tells Spring Boot that your database type is PostgreSQL.
+This helps Spring choose correct default settings (like dialect, driver, etc.).
+It’s optional — Spring can detect it automatically from your DB URL, but adding it makes your setup clearer.
+
+
+🧩 2. spring.jpa.show-sql=true
+
+This tells Hibernate (the JPA implementation) to print all SQL queries in the console.
+Useful for debugging — you can see what queries are being run behind the scenes.
+For development only — turn it off in production to avoid logs being cluttered.
+
+
+
+🧩 3. spring.jpa.hibernate.ddl-auto=update
+
+Controls how Hibernate handles your database schema (tables, columns, etc.).
+
+Possible values:
+
+Value	What it does
+none	Does nothing (you manage tables manually).
+validate	Validates schema matches your entities but doesn’t change DB.
+update	Updates schema automatically (adds new columns, etc.).
+create	Drops old schema and creates new one every startup.
+create-drop	Creates schema at startup, deletes it when app stops.
+
+👉 This keeps your DB automatically in sync with your entity classes.
+
+⚠️ Caution:
+Use update only in dev — in production, use migrations (e.g., Liquibase or Flyway).
+
+🧩 4. spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+
+This tells Hibernate how to translate its SQL into PostgreSQL-specific SQL.
+Every database has slight differences in SQL syntax (e.g., how to handle LIMIT, datatypes, etc.).
+The dialect ensures Hibernate generates correct queries for that database.
+
+NOTE - The above configuration is also needed because sometimes you get all your setup correctly done but the tables are not populating.
+Which means that either @Entity annotation is missing or the above 4 configurations have some issues or are also missing.
+

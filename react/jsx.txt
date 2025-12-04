@@ -1,0 +1,65 @@
+- JSX is a declarative syntax to describe what components look like
+- Components must return a block of JSX
+- JSX (JavaScript XML) is a syntax extension of JavaScript that lets you write HTML-like code inside JavaScript.
+- Browser does not understand JSX so, it convert JSX into javascript using a tool Babel (automatically included while creating project from create react app),
+ex- 
+<header>
+    <h1 style="color: red>
+        Hello React !!
+    </h1>
+</header>
+
+This code will be converted into something like - 
+
+React.createElement(
+    'header',
+    null,
+    React.createElement(
+        'h1',
+        { style: { color: 'red' } },
+        'Hello React !!'
+    )
+);
+
+- You can use React without JSX.  
+
+
+What do you mean by JSX is declarative?
+
+👉 You describe what the UI should look like,
+❌ not how to build or update it step by step.
+
+🧠 Example (Declarative — JSX)
+function App() {
+  return <h1>Hello World</h1>;
+}
+
+
+You just declare:
+“I want an h1 that says Hello World.”
+✅ React figures out how to render it, where to put it in the DOM, and how to update it if data changes.
+
+🛠️ Example (Imperative — Vanilla JS)
+
+const h1 = document.createElement("h1");
+h1.textContent = "Hello World";
+document.getElementById("root").appendChild(h1);
+
+Here, you tell the browser:
+“Create an element, set its text, find a parent, and append it.”
+You’re controlling every step manually.
+
+🪄 Why Declarative is better
+ - Easier to read and maintain
+ - React automatically updates the UI when state changes
+ - You focus on what the UI should be, not DOM manipulation
+
+📝 In short:
+“Declarative” = Describe the end result.
+“Imperative” = Tell the system exactly what to do step by step.
+
+
+Rules of JSX - 
+1. A piece of JSX can only return a single root element. If you want to return, you can use<></> or React.Fragment
+2. You can write any piece of JS expression inside JSX enclosed in {}
+3. But you cannot have any if else or switch statement .

@@ -1,0 +1,11 @@
+Pitfalls about using context in React
+- Performance issues
+ One of the main pitfalls of using context in React is the potential for performance issues. 
+ When the context value changes, all components that consume the context will re-render, even if they don't use the part of the context that changed. 
+ This can lead to unnecessary re-renders and degrade the performance of your application.
+
+- Debugging difficulties
+ Debugging issues related to context can be challenging. 
+ Since context updates can trigger re-renders in multiple components, it can be difficult to trace the source of a bug or performance issue. 
+ This is especially true in larger applications with many context providers and consumers.
+
