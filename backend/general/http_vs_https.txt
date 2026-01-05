@@ -1,0 +1,3 @@
+HTTP - Hypertext transfer protocol 
+HTTPS - Hypertext transfer protocol secure
+

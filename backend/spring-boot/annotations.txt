@@ -1,3 +1,40 @@
+-------------------------------------------------------- @RestController Annotation -------------------------------------------------------------------------------------------------
+A controller is required because Spring needs a dedicated HTTP entry point to map web requests to application logic while keeping business logic separate from requests.
+Is a Controller ALWAYS required?
+In Spring MVC / Spring Boot → YES
+
+Why @RestController specifically?
+
+@RestController = @Controller + @ResponseBody
+
+Meaning: It handles web requests AND Automatically converts Java objects → JSON
+
+Without a controller, Spring has no idea:
+
+- Which URL maps to which method
+- How to parse request data
+- How to build a response
+
+-------------------------------------------------------- @PathVariable Annotation -------------------------------------------------------------------------------------------------
+
+@PathVariable is used in Spring MVC / Spring Boot to extract values from the URL path and map them to method parameters.
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable int id) {
+        return userService.getUserById(id);
+    }
+}
+
+If variable name ≠ parameter name: This will not work, the variable name and parameter name must be same.
+@GetMapping("/{id}")
+public User getUser(@PathVariable("id") int userId) {
+    ...
+}
+
 -------------------------------------------------------- @Data Annotation -------------------------------------------------------------------------------------------------
 This annotation is a part of lombok dependency which is a dependency that provides annotations to reduce the boilerplate code 
 

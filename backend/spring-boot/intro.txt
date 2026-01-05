@@ -1,0 +1,1 @@
+Open source, java based framework used to create stand alone production grade spring based applications

@@ -1,0 +1,17 @@
+Spring container manages the creation, management of the objects in your spring application.
+
+- The entire lifecycle of the object is managed by the spring container.
+Types of Spring container - 
+1. ApplicationContext
+2. BeanFactory 
+
+How Spring container know which obj to manage?
+We, as a developer tell spring container through configuration.
+
+What is a Bean?
+Any Java object that is created and managed by the Spring Container
+
+@Component
+public class UserService {
+}
+UserService becomes a Spring Bean.

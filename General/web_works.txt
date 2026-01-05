@@ -1,0 +1,22 @@
+When you type a website like www.google.com in your browser, several steps happen:
+
+1. DNS Lookup
+
+- The browser needs the server’s IP address.
+- DNS (Domain Name System) converts the domain name (www.google.com) into an IP address (like 142.250.193.206).
+- This is similar to looking up a contact name in your phone to get the phone number.
+
+2. Connect to the Server
+
+- Once the IP address is known, the browser connects to that server.
+
+3. HTTPS Security Setup
+- The browser and the server create a secure connection.
+- HTTPS makes sure the communication is encrypted and safe.
+
+4. Request and Response
+- The browser requests the webpage.
+- The server sends back HTML, CSS, JavaScript, images, etc.
+
+5. Browser Shows the Page
+- The browser reads all the files and displays the webpage to the user.
