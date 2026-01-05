@@ -5,3 +5,60 @@
 - Components can be reused, nested inside each other and pass data between them.
 
 
+
+How to split the component?
+1. Logical separation of content / layout 
+   - Does the component contain pieces of content or layout that doesn't belong together?
+
+2. Reusability - 
+  - Is it possible to reuse part of the component?
+  - Do you want or need to reuse it?
+
+3. Responsibilities / complexity 
+
+  - Is the component doing too many things?
+  - Does the component rely on too many props?
+  - Does the component have too many piece of state or effects?
+  - Is the code, including JSX, too complex/confusing?
+
+4. Personal coding styles
+
+
+Usually components lies in the following 3 categories - 
+1. Stateless / presentational component - logo 
+2. Stateful components - List of data
+3. Structural components - Pages, layouts, screens
+
+
+
+Component Composition - Combining different components using the children props for explicitly defined props.
+
+With Component composition, we can,
+1. Create highly reusanle and flexible components.
+2. Fix prop drilling (great for layout)
+
+
+
+-----------------------------------------------------------------------------------------------------------
+Component vs Component Instance vs Element - 
+
+
+COMPONENT - 
+
+A component is the function that returns react elements (element tree), Usually written in JSX.
+It kind of a blueprint or "Template"
+
+
+COMPONENT INSTANCE - 
+- Instances are created when we "use" the component.
+- If we call the component, 3 times, 3 instances will be created that will have their own state and props
+
+
+ELEMENT - 
+
+- JSX is converted to React.createElement() function call.
+- A react element is the result of these function calls, (createElement returns a JS object which is react element)
+- Information is necessary to create DOM elements
+- A React element is just a description of what should appear on the screen. It is NOT the actual HTML yet.
+
+COMPONENT ---> COMPONENT INSTANCE ----> (Return) REACT ELEMENT ----> (inserted into DOM) DOM Element (HTML) [through ReactDOM]

@@ -1,0 +1,13 @@
+❌ Why writing {Tab()} (any component) inside JSX is not advisable
+
+In React, components should be rendered using JSX syntax (<Tab />) and not called like regular functions ({Tab()}).
+When you write:
+{Tab()} 
+1. React treats Tab as a normal JavaScript function, not as a component.
+This means React loses control over how the component is rendered and updated.
+Correct way: <Tab />
+
+2. Calling Tab() runs the function every time the parent renders, so:
+State can reset
+Effects may re-run incorrectly
+React can only preserve state when it owns the component instance.

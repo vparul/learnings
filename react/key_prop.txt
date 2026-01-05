@@ -1,0 +1,54 @@
+- Key prop is the special prop that we use to tell the diffing algorithm that an element is unique.
+- Allows React to distinguish between multiple instances of the same component type.
+- When a key stays the same across renders, the element will be kept in the DOM (even if the position in the tree changes)
+    -- Using keys in lists
+- When a key changes between renders, the element will be destroyed and a new one will be created (even if the position in the tree is same as before).
+    -- Using keys to reset state
+
+
+--------------------------------------------- WHY SHOULD WE USE KEYS IN REACT ? -----------------------------------------------------------
+1. Performance and Efficiency
+Without keys, if you change the order of a list, React doesn't realize the items just moved. Instead, it "mutates" every single item to match the new order.
+
+With keys: React says, "Oh, ID #102 just moved from the top to the bottom," and simply moves the existing DOM node.
+
+Without keys: React re-renders every single element in the list, which is much slower.
+
+2. To reset the state
+
+3. 3. Avoiding the "Index as Key" Trap 
+
+A common mistake is using the array index as a key:JavaScript{items.map((item, index) => (
+  <li key={index}>{item.text}</li>
+))}
+Why this is bad: If you delete the first item in the list, the item that was at index: 1 now becomes index: 0. 
+React thinks the first item simply changed its data, rather than being deleted. This causes glitches in animations and form inputs.
+
+----------------------------------------------- WHY INDEX SHOULD NOT BE USED AS KEYS? ----------------------------------------------------------------------------------
+1. The State Mess-Up
+Imagine a list of items where each item has an <input /> field. You type "Hello" into the first box, then you delete the first item.
+
+Expected: The first item (with "Hello") disappears.
+
+Reality with Index Keys: The first item is deleted, but because the new first item now has key="0", React thinks the first item simply changed its text. The "Hello" you typed will stay in the first box, even though it now represents a completely different data object.
+
+2. Unnecessary Re-renders (Performance)
+React’s "Reconciliation" process is designed to be lazy—it wants to do the least amount of work possible.
+
+With stable IDs: If you shuffle a list of 1,000 items, React sees the keys are the same, moves the existing DOM nodes, and doesn't re-render the internal content.
+
+With Indexes: If you prepend a new item at the start of the list, every single item's index changes. * Old index 0 becomes index 1.
+
+Old index 1 becomes index 2.
+
+React thinks every single item in your list has been replaced by a "new" item. It forces a full re-render of the entire list, which can cause lag or "jank" in the UI.
+
+
+
+-----------------------------------------------  WHEN IS IT SAFE TO USE KEYS IN REACT  ----------------------------------------------- 
+
+You can safely use the index as a key only if all three of these conditions are met:
+
+- The list and items are static (they never change, sort, or filter).
+- The items in the list have no IDs (unlikely with modern APIs).
+- The list is never reordered or filtered.

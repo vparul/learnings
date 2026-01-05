@@ -1,0 +1,168 @@
+How components are displayed on the screen ?
+
+
+
+Render is triggered (By updating the state somewhere)
+                |
+                |
+                |
+Render phase (React Calls component functions and figure out how DOM should be updated)    
+                |
+                |
+                |       
+Commit Phase (React actually writes to the DOM , updating, inserting and deleting the elements)
+                |
+                |
+                |
+            Browser Paint
+
+In React, rendering is not updating the DOM or displaying the elements on the screen.
+Rendering only happens internally inside React, it does not provide visual changes.
+
+
+
+
+How Renders are triggered?????
+
+The 2 situations that trigger renders - 
+1. Initial render of the application.
+2. State is updated in one or more component instances (re-render)
+
+If someone says:
+“React re-renders the whole tree”
+Correct response:
+“Only if the state is at the top. Otherwise, React limits reconciliation to the updated subtree.”
+
+
+The Render Phase (DONE BY REACT) - 
+1. React starts rendering from the component whose state changed.
+2. Call component functions to get the react element
+3. Build a NEW Virtual DOM subtree
+    React builds:
+        Old Virtual DOM (already exists)
+        New Virtual DOM (just calculated) (A new Virtual DOM is created every time a component renders)
+    The old one is kept intact.
+
+Why not update the entire DOM whenever state changes somewhere in the app?
+- This would be inefficient and wasteful: 
+    1. Writing to the DOM is very slow process
+    2. Usually only a small part of the DOM needs to be updated
+
+React resuses as much of the existing DOM as possible. How? 
+Through Reconciliation: Deciding which DOM elements actually needs to be inserted, deleted or updates in order to 
+reflect the latest changes.
+
+the Result of the reconciliation is the list of DOM operations that are necessary to update the current DOM with the new changes.
+
+This reconciliation is done by Reconciler. The current Reconciler in react is called Fiber.
+
+Initially, (On first load) Fiber takes the entire react element tree of virtual dom and creates a new tree i.e fiber tree 
+- Fiber tree has a "fiber" for each component instance and DOM element.
+- Fibers are not re-created on every render.
+- Fiber tree is never destroyed. It is mutated across the rendering with updated changes
+- Every state, prop, side effects, used hooks etc that we see in the component is interally stored in the fiber of that component.
+- It also has it's own queue of work 
+- It is in the form of Linked list.
+-Work can be done asynchronously. Rendering process can be split into chunks, tasks can be prioritized and work 
+can be paused, resused and thrown away.
+
+Diffing - Comparing elements based on their position in the tree (fiber tree).
+
+Once the process is done, all the DOM mutations are placed in the list called as List of effects which will be used in the commit phase.
+
+COMMIT PHASE (DONE BY REACT DOM) - 
+
+-> In this phase, react writes (inserts, delete or update) to the DOM
+-> DOM is updated in one go. It can't be interrupted. This is necessary so that the DOM never shows partial results,
+ensuring a consistent UI (in sync with the state all the time).
+-> After the commit phase completes, the workInProgress fiber tree becomes the current tree for the next render cycle.
+
+
+The browser will the notice that the DOM is changed, and will repaint the screen (DONE BY BROWSER).
+
+Virtual DOM tree & Fiber tree relation - 
+1. State/props change (Re-render trigger)
+2. React creates a new Virtual DOM
+3. React compares it with the current Fiber Tree
+4. A work-in-progress Fiber Tree is built
+5. Changes are committed to the DOM
+6. Work-in-progress tree becomes the current Fiber Tree
+
+Step-by-step explanation
+1. Initial render
+
+React creates a Virtual DOM tree
+React builds a Fiber Tree
+DOM is painted on the screen
+
+Virtual DOM (v1) → Fiber Tree → Real DOM
+
+2. State / props update
+React creates a new Virtual DOM (v2)
+React compares v2 with the current Fiber Tree
+Determines what changed
+
+Virtual DOM (v2)
+        ↓ diff
+Current Fiber Tree
+
+ ⭐️ - React does not diff Virtual DOM vs Virtual DOM directly
+ It diffs Virtual DOM vs Fiber Tree
+
+3. Commit phase
+
+Only the required changes are applied to the real DOM
+A work-in-progress Fiber Tree becomes the new current Fiber Tree
+
+4. What happens to the old Virtual DOM?
+The old Virtual DOM has no references
+JavaScript automatically garbage collects it
+React does not reuse it
+
+Old Virtual DOM ❌ (discarded)
+New Virtual DOM ✅ (used for diffing)
+
+Why React discards old Virtual DOM
+
+Virtual DOM is:
+Lightweight
+Immutable
+Cheap to recreate
+
+Keeping old trees would:
+Increase memory usage
+Provide no benefit
+
+
+Instead, React keeps the Fiber Tree, which contains:
+State
+Hooks
+Effects
+Update queues
+
+
+-------------------------------- HOW DIFFING WORKS -----------------------------
+Diffing uses 2 fundamental assumptions (rules) - 
+1. Two elements of different types will produce different trees.
+2. Elements with a stable key prop stay the same across renders.
+
+Diffing means comparing elements between two renders step by step based on their position in the tree. 
+Here, two things will be considered - 
+1. Same position , different element 
+
+    <div>                                                   <Header>
+        <Searchbar />.      --------------> (changed to).      <Searchbar />
+    </div>                                                  </Header />
+
+Here, React will assume entire sub-tree is no longer valid and will remove it. Old component are destroyed and removed from DOM including state.
+In the above example, both the div & searchbar will be removed and will be rebuild with header & searchbar
+
+2. Same element, same position
+
+<div className="hidden">                                <div className="active"> 
+    <SearchBar wait={1}  --------------> (changed to).     <Searchbar wait={5} />
+</div>                                                  </div>
+
+Elements will be kept (As well as the child element) including state
+New props/attributes are pased if they changed between renders.
+
