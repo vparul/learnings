@@ -1,0 +1,19 @@
+let total = 0;
+
+function updateTotal(total = total + 1) {
+    console.log(total);
+}
+
+updateTotal();
+
+OUTPUT - 𝐑𝐞𝐟𝐞𝐫𝐞𝐧𝐜𝐞𝐄𝐫𝐫𝐨𝐫. 
+Reason - A function parameter cannot use itself to calculate its default value. Even if there is another variable with the same name outside.
+
+Correct way - 
+let total = 0;
+
+function updateTotal(value = total + 1) {
+    console.log(value);
+}
+
+updateTotal(); // 1
