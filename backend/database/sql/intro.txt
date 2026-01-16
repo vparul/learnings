@@ -1,0 +1,41 @@
+SQL  (RDBMS) - SQL stands for structured Query Language. Used to retrieve, manage and update data in the database.
+
+SQL Query - Data from database is retrieved with the help of SQL queries.
+
+Types of SQL queries - 
+1. Data Query Language [DQL] 
+This is the most common type. It is used exclusively to fetch or retrieve data without changing it.
+
+SELECT: The primary command to pull data.
+
+Example: SELECT name, email FROM users;
+
+2. Data manipulation Language [DML]
+These commands are used to modify the actual data stored inside the tables.
+
+INSERT: Adds new rows.
+UPDATE: Edits existing rows.
+DELETE: Removes rows.
+
+Example: UPDATE products SET price = 20 WHERE id = 101;
+
+3. Data Definition Language [DDL]
+DDL is used to define or change the structure (schema) of the database itself—like creating or destroying the "filing cabinets."
+
+CREATE: Creates a new table or database.
+ALTER: Modifies the structure (e.g., adding a new column).
+DROP: Deletes an entire table or database.
+TRUNCATE: Empties a table but keeps the structure.
+
+4. Data Control Language [DCL]
+Used by administrators to manage security and permissions.
+
+GRANT: Gives a user permission to do something.
+REVOKE: Takes a permission away.
+
+5. Transaction Control Language [TCL]
+Manages the flow of work. Since DML changes are often temporary until "finalized," TCL ensures everything stays consistent.
+
+COMMIT: Saves all changes permanently.
+ROLLBACK: Undoes changes if an error occurs.
+SAVEPOINT: Creates a "checkpoint" to return to later.

@@ -1,20 +1,34 @@
-JPA stands for Jakarta Persistance API and it's a framework that helps Java application store, retrieve, update and delete data in the database 
+JPA stands for Jakarta Persistance API and it's a specification that helps Java application store, retrieve, update and delete data in the database 
 without writing complex SQL queries.
+
+Why people think JPA is a framework
+Because we usually use JPA through a framework.
+
+| Type                       | Name            |
+| ---------------------------| --------------- |
+| Specification              | JPA             |
+| Framework / Implementation | Hibernate       |
+| Framework using JPA        | Spring Data JPA |
+
+
+In Spring Boot, When you use: spring-boot-starter-data-jpa
+You get:
+- JPA specification
+- Hibernate as the default implementation
+- Spring Data abstractions on top
+
+Your code → Spring Data JPA → JPA spec → Hibernate → Database
 
 Advantages of JPA -
 1. Easy and simple 
 2. Make queries easier. It helps us write queries in the form of entities rather than SQL.
 3. Allows to save and update objects
 4. Easy integration with springboot
-
-
-An entity represents a table in the reslational database. An instance of an entity corresponds to a single row within that particular table.
-
+ 
 Why JPA need no args construtor?
 JPA providers like Hiberate uses Reflection to instantiate entity objects. Reflection either needs a public or a protected no args constructor to instantiate
 the entity object .
 Without this JPA won't be able to create objects for the entity class while reading the data from database.
-
 
 Reflection - Reflection in Java is a powerful feature that allows code to inspect and manipulate itself at runtime.
 Reflection lets your program:

@@ -1,0 +1,24 @@
+Database is a place where data related to your application is stored.
+
+Types of databases - 
+1. Relational (SQL)	 - Stores data in tables (rows and columns) like a spreadsheet. Like - Financial records, inventory, and structured data.
+2. Non-Relational (NoSQL) - Stores data in documents, graphs, or pairs rather than strict tables. Like - Social media feeds, real-time analytics, and messy data.
+3. Cloud Database - Runs on a cloud platform (like AWS or Google Cloud). Best for Remote access and easy scaling for apps.
+4. Graph Database - Focuses on the relationships between data points. Best for - Fraud detection or "people you may know" suggestions.
+
+DBMS (Database management system) 
+A Database Management System (DBMS) is the software that acts as an interface between a user and the database. 
+While the database is the collection of data, the DBMS is the tool you use to manage, retrieve, and secure that data.
+
+ORM (Object-Relational Mapping) - 
+Whenever there is a class, that class can be automatically converted to a table with its attributes being converted to columns
+Normally, a database thinks in Tables (rows and columns), while a programmer thinks in Objects (classes and properties). An ORM acts as the bridge or "translator" between these two worlds.
+
+Class → Table: A class in your code (e.g., User) becomes a table in the database.
+Property → Column: A property (e.g., User.email) becomes a column.
+Instance → Row: A specific object (e.g., user_john) becomes a row in that table.
+
+- ORM as a concept makes developers lives easire and lets developer focus on application logic rather than SQL queries.
+
+- Because of ORM developers don't need to learn how to write SQL queries since the translation from application to SQL is handled by ORM itself.
+

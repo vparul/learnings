@@ -1,0 +1,5 @@
+Q - Why it is recommdended to have a service interface and a service impl class in springboot?
+A - 
+    If not used, controller will be tightly coupled with the service.
+    Service interfaces in Spring Boot are used to achieve loose coupling, support multiple implementations, improve testability, and follow SOLID principles - 
+    but they are optional and should be used when flexibility is needed
