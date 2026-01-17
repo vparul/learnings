@@ -1,0 +1,80 @@
+- Renders are not triggered immediately, but scheduled for when the JS engine has some "free time". 
+There is also batching of multiple setState calls in the event handlers.
+
+For eg - 
+function handleClick() {
+  setCount(c => c + 1); 
+  setFlag(f => !f);
+  setUser("Alex");
+  // React only re-renders ONCE at the end of this function.
+}
+
+Instead of updating a single state and triggering render and then doing it for another state update,
+React optimise it by doing it once at the end of the execution context (here, at the end of the function).
+
+-------------------------------------------------------------------------------------------------
+
+const reset = function () {
+    setAnswer("");
+    console.log(answer); // Guess the output 
+    setBest(true);
+    setSolved(false);
+}
+In the above example, the answer state will store the previous value of the answer state even though the setState has already executed.
+This is because, the state update is asynchronous. 
+More explanation - 
+State is stored in the Fiber tree during the rendering phase. At this point, re-render has not happened yet.
+Therefore, answer still contain current state and not the updated one. The state update is only be reflected in the state variable after the re-render. That's why we say the state update is async.
+This also applies only when one state variable is updated.
+
+ -------------------- WHAT IF WE NEED THE STATE UPDATE IMMEDIATELY ----------------------------------
+
+ In that case, you can use callback like 
+                    setAnswer((ans) => ans + "hello")
+
+In React 17, React only did automatic batching in event handlers.
+With React 18+, React do automatic batching in timeouts, promises, native events along with event handlers.
+
+setTimeout(() => {
+  setCount(c => c + 1);
+  setFlag(f => !f);
+  // React 18: Only ONE re-render happens here.
+}, 1000);
+
+IMP Note: async/await
+Even in React 18, batching breaks across an await keyword.
+ - Updates before the await are batched.
+ - Updates after the await are batched.
+ - But the updates before and after are treated as two separate batches because they happen at different times in the event loop.
+
+ Like - 
+ async function handleRequest() {
+  setLoading(true); // Batch 1: Renders "Loading..." UI
+  await fetch('/data'); 
+  setLoading(false); // Batch 2: Renders "Data arrived" UI
+  setData(data);
+}
+
+& in case of setTimeout, you need to use 2 setTimeout
+
+// A messy way to split batches in React 18
+setTimeout(() => {
+  setCount(1); // Render 1
+}, 0);
+
+setTimeout(() => {
+  setFlag(true); // Render 2
+}, 10);
+
+----------------------------------------- FLUSH SYNC -----------------------------------------
+What if I need to update state immediately?
+While rare, if you absolutely need to force a render to happen immediately (for example, to read something from the DOM right after a state change), you can use flushSync. However, this is generally discouraged as it hurts performance.
+
+import { flushSync } from 'react-dom';
+
+function handleClick() {
+  flushSync(() => {
+    setCount(c => c + 1);
+  });
+  // React has updated the DOM by this point.
+}
