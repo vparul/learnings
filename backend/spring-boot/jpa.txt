@@ -1,4 +1,4 @@
-JPA stands for Jakarta Persistance API and it's a specification that helps Java application store, retrieve, update and delete data in the database 
+JPA stands for Jakarta Persistance API (earlier knows as Java Persistance API) and it's a specification that helps Java application store, retrieve, update and delete data in the database 
 without writing complex SQL queries.
 
 Why people think JPA is a framework
