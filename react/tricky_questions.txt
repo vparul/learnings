@@ -1,4 +1,4 @@
-❌ Why writing {Tab()} (any component) inside JSX is not advisable
+🙋‍♀️ Why writing {Tab()} (any component) inside JSX is not advisable
 
 In React, components should be rendered using JSX syntax (<Tab />) and not called like regular functions ({Tab()}).
 When you write:
@@ -11,3 +11,15 @@ Correct way: <Tab />
 State can reset
 Effects may re-run incorrectly
 React can only preserve state when it owns the component instance.
+
+
+🙋‍♀️ What is the issue with this code?
+function MyComponent() {
+  const [data, setData] = useState(null);
+
+  fetch("/api/data").then(res => res.json()).then(setData);
+}
+
+Ans - setState causes re-render → API call again → infinite loop. That's why we have useEffect in picture
+
+🙋‍♀️

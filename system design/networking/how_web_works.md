@@ -36,6 +36,11 @@ Examples:
 download.microsoft.com
 sales.microsoft.com
 
+#EXAMPLE - 
+com        → Top-level domain
+google     → Main domain
+www        → Subdomain
+
 # Data Centers
 A data center is a physical facility that stores computing equipment and digital data for companies. It's like a server, but without displays—only CPUs and hardware managing incoming requests.
 

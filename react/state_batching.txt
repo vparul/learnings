@@ -9,6 +9,7 @@ function handleClick() {
   // React only re-renders ONCE at the end of this function.
 }
 
+- State updates inside the same event handler are batched
 Instead of updating a single state and triggering render and then doing it for another state update,
 React optimise it by doing it once at the end of the execution context (here, at the end of the function).
 
@@ -35,6 +36,13 @@ This also applies only when one state variable is updated.
 In React 17, React only did automatic batching in event handlers.
 With React 18+, React do automatic batching in timeouts, promises, native events along with event handlers.
 
+What happens in React 17
+setTimeout(() => {
+  setCount(c => c + 1); // 🔁 render #1
+  setFlag(f => !f);    // 🔁 render #2
+}, 1000); 
+
+What happens in React 18
 setTimeout(() => {
   setCount(c => c + 1);
   setFlag(f => !f);

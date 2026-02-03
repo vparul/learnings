@@ -1,0 +1,49 @@
+- A SyntheticEvent is a React object that wraps the browser’s native event and normalizes it so it works the same across all browsers.
+
+If you've ever struggled with the fact that Firefox handles a mouse click slightly differently than Chrome or Safari, Synthetic Events are the reason you don't have to worry about that in React.
+
+function Button() {
+  function handleClick(e) {
+    console.log(e);                 // SyntheticEvent
+    console.log(e.nativeEvent);     // Real browser event
+  }
+
+  return <button onClick={handleClick}>Click</button>;
+}
+
+
+Why React uses Synthetic Events
+1. Cross-browser compatibility
+
+Different browsers used to implement events slightly differently.
+React normalizes things like:
+    - event.target
+    - event.key
+    - event.preventDefault()
+    - event.stopPropagation()
+
+So this works everywhere:
+e.preventDefault();
+e.stopPropagation();
+
+2. Event delegation (performance)
+
+React doesn’t attach listeners to every element.
+Instead: React attaches one listener per event type at the root
+
+When an event occurs, React:
+Captures it
+Creates a SyntheticEvent
+Dispatches it to the correct component
+
+➡️ Fewer listeners = better performance.
+
+3. Unified API
+
+Whether it’s:
+onClick
+onChange
+onKeyDown
+onSubmit
+
+They all receive a SyntheticEvent with the same shape and methods.

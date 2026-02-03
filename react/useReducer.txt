@@ -1,0 +1,134 @@
+useReducer is a React Hook for managing complex state logic.
+
+USAGE -  
+- State has multiple related values
+- State updates depend on previous state
+- You want centralized update logic
+
+SYNTAX - 
+const [state, dispatch] = useReducer(reducer, initialState);
+
+state → current state
+dispatch → function to send actions
+reducer → pure function that decides state updates
+initialState → starting state
+
+EXAMPLE - 
+import { useReducer } from 'react';
+
+const initialState = { count: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+
+    case 'decrement':
+      return { count: state.count - 1 };
+
+    default:
+      return state;
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return (
+    <>
+      <p>Count: {state.count}</p>
+      <button onClick={() => dispatch({ type: 'increment' })}>
+        +
+      </button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>
+        -
+      </button>
+    </>
+  );
+}
+
+
+PROBLEM THAT WAS THERE IN USESTATE THAT USEREDUCER SOLVE - 
+const [email, setEmail] = useState('');
+const [password, setPassword] = useState('');
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState(null);
+
+function handleSubmit() {
+  setLoading(true);
+  setError(null);
+
+  if (!email || !password) {
+    setError('All fields required');
+    setLoading(false);
+    return;
+  }
+
+  // api call...
+}
+❌ What’s wrong here?
+- State logic is scattered i.e. we have a Validation logic, Loading logic and Error logic → all mixed inside handlers
+
+- Hard to maintain - Add a new field? Add more useState & Add reset? Touch many setters
+
+✅ Same form using useReducer (problem fixed)
+Step 1: Define state shape
+const initialState = {
+  email: '',
+  password: '',
+  loading: false,
+  error: null
+};
+function reducer(state, action) {
+  switch (action.type) {
+    case 'CHANGE_FIELD':
+      return {
+        ...state,
+        [action.field]: action.value
+      };
+
+    case 'SUBMIT':
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+
+    case 'ERROR':
+      return {
+        ...state,
+        loading: false,
+        error: action.message
+      };
+
+    case 'SUCCESS':
+      return {
+        ...state,
+        loading: false
+      };
+
+    default:
+      return state;
+  }
+}
+💡 What problem did useReducer fix here?
+Before (useState)
+Multiple setters everywhere
+Logic mixed with UI
+Hard to scale
+
+After (useReducer)
+✅ All state update rules in one place
+✅ Clear actions describe what happened
+✅ Easy to add reset, validation, steps, etc.
+
+
+WHEN TO USE USESTATE - 
+- State is simple
+- Updates are independent
+- Logic is local and short
+
+Examples:
+Toggle (true/false)
+Modal open/close
+Counter without rules
