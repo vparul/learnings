@@ -284,3 +284,32 @@ Precedence (Highest to Lowest) -
 5. Profile-specific properties (application-dev.properties, application-prod.properties)
 6. @PropertySource in code (@PropertySource("classpath:custom.properties"))
 7. Default values in @Value annotation (@Value("${app.name:DefaultName}"))
+
+
+-------------------------------------------------------- @RestControllerAdvice Annotation -------------------------------------------------------------------------------------------------
+This is the global error handler for all the REST APIs.
+
+- Applies to all @RestControllers
+- Central place to handle exceptions
+- Returns JSON responses
+
+Why we use it
+- Avoid repeating try-catch in every controller
+- Keep controllers clean
+- Consistent error responses across the app
+
+-------------------------------------------------------- @ExceptionHandler Annotation -------------------------------------------------------------------------------------------------
+
+This is used inside @RestControllerAdvice (or a controller) to handle specific exceptions.
+
+- Catches a specific exception
+- Converts it into a proper HTTP response
+
+FLOW - 
+Controller throws exception
+        ↓
+@RestControllerAdvice catches it
+        ↓
+@ExceptionHandler method runs
+        ↓
+Proper HTTP status + JSON response

@@ -1,0 +1,80 @@
+What is Outlet?
+
+<Outlet /> is used in React Router to render child routes inside a parent layout. 
+It enables nested routing while keeping shared UI like headers and sidebars intact.
+Outlet reads routing state from React Router’s internal context. (Hence it only works with React router).
+
+example - 
+import { Routes, Route } from "react-router-dom";
+
+<Routes>
+  <Route path="/dashboard" element={<DashboardLayout />}>
+    <Route path="profile" element={<Profile />} />
+    <Route path="settings" element={<Settings />} />
+  </Route>
+</Routes>
+
+import { Outlet } from "react-router-dom";
+
+function DashboardLayout() {
+  return (
+    <>
+      <Header />
+      <Sidebar />
+
+      {/* 👇 Child routes render here */}
+      <Outlet />
+
+      <Footer />
+    </>
+  );
+}
+
+| URL                   | What renders                    |
+| --------------------- | ------------------------------- |
+| `/dashboard/profile`  | Header + Sidebar + Profile  |
+| `/dashboard/settings` | Header + Sidebar + Settings |
+
+
+
+What is index route?
+An index route is the default child route of a parent route.
+
+👉 It renders when the parent path matches exactly
+👉 It renders inside <Outlet />
+
+import { Routes, Route } from "react-router-dom";
+
+<Routes>
+  <Route path="/dashboard" element={<DashboardLayout />}>
+    <Route index element={<DashboardHome />} />
+    <Route path="settings" element={<Settings />} />
+  </Route>
+</Routes>
+| URL                   | Rendered Component |
+| --------------------- | ------------------ |
+| `/dashboard`          | `DashboardHome` ✅  |
+| `/dashboard/settings` | `Settings`         |
+
+
+Why do we need index routes?
+
+Without an index route:
+
+<Route path="/dashboard" element={<DashboardLayout />}>
+  <Route path="settings" element={<Settings />} />
+</Route>
+
+Visiting /dashboard would show:
+❌ Layout only
+❌ Blank <Outlet />
+
+Index route fixes that.
+
+<Route index path="home" element={<Home />} /> ❌ -> this won't work
+
+Guess the output ->
+ <Route index path="cities" element={<p>List of cities index</p>} />
+<Route path="cities" element={<p>List of cities</p>} />
+
+ANS -> React Router will either ignore one route or behave unpredictably.

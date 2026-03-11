@@ -1,0 +1,41 @@
+CSS Modules make CSS locally scoped by default.
+
+Instead of class names leaking globally like normal CSS, each class becomes unique to the component.
+
+Button.module.css
+
+.btn {
+  background: green;
+  color: white;
+}
+
+Button.jsx
+import styles from "./Button.module.css";
+
+<button className={styles.btn}>Click</button>
+
+What actually happens 👀
+.btn___3kJ9x {
+  background: green;
+}
+
+➡️ No clashes
+➡️ No accidental overrides
+➡️ Safe for large apps
+
+‼️ Problem: “But I want this class to be global"
+
+This is where :global() comes in.
+
+What is :global(className)?
+
+:global() tells CSS Modules:
+❗ “Don’t scope this class. Keep it global.”
+
+:global(.text-danger) {
+  color: red;
+}
+
+Now you can use it anywhere, even without importing the module:
+
+<p className="text-danger">Error</p>

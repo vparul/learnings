@@ -22,4 +22,38 @@ function MyComponent() {
 
 Ans - setState causes re-render → API call again → infinite loop. That's why we have useEffect in picture
 
-🙋‍♀️
+🙋‍♀️ Why <a> tag is not used in react application and use Link ?
+ 🚀 SHORT ANSWER - because React apps are SPAs and <Link> keeps them fast and state-safe
+
+What happens with a normal <a> tag?
+  <a href="/dashboard">Dashboard</a>
+
+When you click this:
+❌ Browser does a full page reload
+❌ React app is destroyed and re-initialized
+❌ All in-memory state is lost (Redux, Context, component state)
+❌ Slower UX
+
+This is how traditional multi-page websites work.
+
+What <Link> does in React
+  import { Link } from "react-router-dom";
+
+<Link to="/dashboard">Dashboard</Link>
+
+<Link> comes from React Router and is designed for Single Page Applications (SPA).
+
+When you click <Link>:
+
+✅ URL changes without reloading the page
+✅ React Router swaps components internally
+✅ App state is preserved
+✅ Navigation feels instant
+
+Under the hood
+ℹ️ <Link> uses the History API (pushState)
+ℹ️ It prevents the browser’s default reload behavior
+ℹ️ React Router listens to URL changes and renders the matching component
+
+📝 We should only use a tag when we want to leave our react application like using external websites, emails etc.
+
