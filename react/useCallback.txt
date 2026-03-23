@@ -1,0 +1,6 @@
+useCallback hook -> used to memoise the functions,
+Values passed into the hook is stored in memory and returned in subsequent re-renders, as long as dependencies stay the same.
+
+
+
+
