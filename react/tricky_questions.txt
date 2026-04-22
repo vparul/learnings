@@ -57,3 +57,47 @@ Under the hood
 
 📝 We should only use a tag when we want to leave our react application like using external websites, emails etc.
 
+
+🙋‍♀️ With react router v6,  Defining route like  <Route  path="/" element={Dashboard} /> doesn't work but 
+defining it like  <Route  path="/" element={<Dashboard />} /> work?
+
+Ans - React Router v6 expects element to be a ReactElement
+That means: It expects already created UI and not a function it needs to call later
+
+So internally, it does something like:
+
+render(element);
+
+NOT:
+
+render(element()); // ❌ it does NOT call your function
+
+⚡ In V5, 
+
+<Route component={Dashboard} />
+
+Here, React Router itself would do: React.createElement(Dashboard)
+So you passed the component, and router created the element.
+
+🙋‍♀️ Why is my image not loading in React when using a path like `src="data/img/logo-light.png"`, and what is the correct way to handle images?**
+
+Ans: 
+In React (using tools like Vite or CRA), files inside the `src` folder are **not directly accessible via string paths**. When you write:
+
+<Img src="data/img/logo-light.png" alt="Logo" />
+
+React treats this as a **public URL**, not a local file, so the image fails to load.
+
+To fix this, you have two correct approaches:
+
+1. If the image is inside `src` → Import it
+
+import logo from "../data/img/logo-light.png";
+<Img src={logo} alt="Logo" />
+
+This allows the bundler to process and correctly serve the image.
+
+2. If you want to use a direct path → Move it to `public
+
+<Img src="/img/logo-light.png" alt="Logo" />
+

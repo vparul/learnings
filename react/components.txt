@@ -53,6 +53,45 @@ COMPONENT INSTANCE -
 - Instances are created when we "use" the component.
 - If we call the component, 3 times, 3 instances will be created that will have their own state and props
 
+ex - function App() {
+  return (
+    <>
+      <Dashboard />
+      <Dashboard />
+      <Dashboard />
+    </>
+  );
+}
+
+3 instances of dashboard is created 
+
+🧠 What happens internally
+
+Each line:
+
+<Dashboard />
+
+creates a new React element object:
+
+{ type: Dashboard, props: {} }
+
+So you actually get:
+
+[
+  { type: Dashboard },
+  { type: Dashboard },
+  { type: Dashboard }
+]
+⚡ Then React does this:
+
+For each element, React calls the component:
+
+Dashboard()
+Dashboard()
+Dashboard()
+
+👉 That means 3 separate executions
+👉 Each is a separate component instance
 
 ELEMENT - 
 
