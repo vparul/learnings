@@ -15,6 +15,55 @@ Without a controller, Spring has no idea:
 - How to parse request data
 - How to build a response
 
+-------------------------------------------------------- @RequestBody Annotation -------------------------------------------------------------------------------------------------
+@RequestBody is used to read JSON data from the HTTP request body and convert it into a Java object.
+
+Why Use It?
+
+Frontend sends JSON:
+
+{
+  "name": "John",
+  "age": 25
+}
+
+Spring converts it into: User user automatically.
+
+Model
+public class User {
+    private String name;
+    private int age;
+
+    // getters and setters
+}
+
+Controller
+@RestController
+public class UserController {
+
+    @PostMapping("/users")
+    public String createUser(@RequestBody User user) {
+
+        return user.getName();
+    }
+}
+
+FLOW ->
+
+
+JSON Request
+     ↓
+@RequestBody
+     ↓
+Spring converts JSON → Java Object
+     ↓
+Controller Method
+
+Internally
+
+Spring uses: Jackson Library to convert JSON ↔ Java Object
+
+
 -------------------------------------------------------- @PathVariable Annotation -------------------------------------------------------------------------------------------------
 
 @PathVariable is used in Spring MVC / Spring Boot to extract values from the URL path and map them to method parameters.
@@ -229,7 +278,9 @@ Many carts → One user
 
 -------------------------------------------------------- @JoinColumn Annotation -------------------------------------------------------------------------------------------------
 
-This annotation tells JPA how to create the foreign key in the DB.
+This annotation tells JPA how to create the foreign key in the DB. 
+
+@JoinColumn specifies the column name in the Product table that stores the foreign key.
 
 name → the column name in the owning table (User table here).
 
@@ -313,3 +364,150 @@ Controller throws exception
 @ExceptionHandler method runs
         ↓
 Proper HTTP status + JSON response
+
+-------------------------------------------------------- @Valid Annotation -------------------------------------------------------------------------------------------------
+`@Valid` is provided by **`jakarta.validation`** (or `javax.validation` in older versions).
+
+Add this to `pom.xml`:
+
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+```
+
+`@Valid` goes on the **controller parameter** to trigger them.
+
+## 1. Entity / DTO — declare the rules
+
+```java
+@Entity
+public class User {
+
+    @NotBlank
+    @Size(min = 2, max = 50)
+    private String name;
+
+    @Email
+    @NotNull
+    private String email;
+
+    @Min(0)
+    private int age;
+
+    // getters & setters
+}
+```
+
+Common constraint annotations:
+
+| Annotation | Description |
+|---|---|
+| `@NotNull` | Field must not be null |
+| `@NotBlank` | String must not be null or empty (trims whitespace) |
+| `@NotEmpty` | String/collection must not be null or empty |
+| `@Size(min, max)` | Length of string or collection |
+| `@Email` | Must be a valid email format |
+| `@Min(n)` / `@Max(n)` | Numeric range |
+| `@Pattern(regexp)` | Must match regex |
+| `@Positive` | Number must be > 0 |
+
+---
+
+## 2. Controller — trigger the validation
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @PostMapping
+    public ResponseEntity<User> createUser(
+            @Valid @RequestBody User user) {  // <-- @Valid here
+        // runs only if all constraints pass
+        return ResponseEntity.ok(userService.save(user));
+    }
+}
+```
+
+- `@Valid` before `@RequestBody` tells Spring to run the validator
+- If a constraint fails → throws `MethodArgumentNotValidException` (HTTP 400)
+- If all pass → method body executes normally
+
+---
+
+## 3. Handle validation errors (optional but recommended)
+
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidation(
+            MethodArgumentNotValidException ex) {
+
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors()
+          .forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
+
+        return ResponseEntity.badRequest().body(errors);
+    }
+}
+```
+
+---
+
+## 4. Nested objects — add `@Valid` on the field too
+
+```java
+public class Order {
+
+    @Valid           // <-- validates Address fields recursively
+    @NotNull
+    private Address address;
+}
+```
+
+Without `@Valid` on the nested field, its constraints are **ignored**.
+
+---
+
+-------------------------------------------------------- @SpringBootApplication Annotation -------------------------------------------------------------------------------------------------
+
+This is a shortcut annotation that combines three annotations - 
+1. @SpringBootConfiguration - Marks this class as a configuration class.
+2. @EnableAutoConfiguration - Automatically configures Spring boot based on the dependencies
+3. @ComponentScan - Scans and registers Spring Components like @Component, @Service etc
+
+Why use @SpringBootApplication?
+1. Saves time -> No need for long XML configuration
+2. Auto configures -> Detects dependencies and configures them automatically
+3. Simplifies Spring boot setup -> Everything works with minimal code.
+
+-------------------------------------------------------- @LOB Annotation -------------------------------------------------------------------------------------------------
+
+@Lob stands for Large Object.
+
+It tells JPA/Hibernate that this field should be stored as a large database object instead of a normal column.
+
+@Lob
+@Column(name = "DESCRIPTION")
+private String description;
+
+Since description is a String, @Lob tells Hibernate:
+
+"This text can be very large, so don't store it as a normal VARCHAR. Store it as a large text object."
+
+Normally, a String is mapped to something like: VARCHAR(255).  or.  VARCHAR(1000)
+
+depending on your database and configuration.
+
+But what if the description contains:
+
+5,000 characters
+20,000 characters
+an entire HTML document
+a blog post
+
+@Lob tells Hibernate to use a type capable of storing huge amounts of text.

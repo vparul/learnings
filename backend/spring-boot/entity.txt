@@ -118,6 +118,8 @@ MySQL (no sequence support)
 
 🚀 Most efficient strategy. Hence, Preferred for enterprise apps
 
+Sequence in database is a database object and it generates a sequence of values.
+
 4. TABLE
  - Uses a separate table to generate IDs
  - Database-independent

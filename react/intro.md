@@ -15,7 +15,7 @@ React is an open source javascript library which is used to create single page a
  
 
 
-2. What is the difference between React Node, React Element, and a React Component?
+# What is the difference between React Node, React Element, and a React Component?
 React Node - React Node is anything that can be rendered through React. It can be a string, boolean, React Element or null
 Ex - 
 const stringNode = 'Hello, world!';

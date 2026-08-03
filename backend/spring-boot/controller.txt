@@ -1,0 +1,26 @@
+In Spring Boot, a Controller is a class that handles HTTP requests from the client (browser, mobile app, frontend, Postman, etc.) and returns a response.
+
+It acts like a middleman between:
+
+- Client request
+- Business logic/service
+- Response sent back to client
+
+
+@RestController
+public class HelloController {
+
+    @GetMapping("/hello")
+    private String helloWorld() {
+        return "Hello World!!";
+    }
+}
+
+Without a controller, Spring has no idea:
+
+- Which URL maps to which method
+- How to parse request data
+- How to build a response
+
+Is a Controller ALWAYS required?
+In Spring MVC / Spring Boot → YES

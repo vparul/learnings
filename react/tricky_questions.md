@@ -1,4 +1,4 @@
-🙋‍♀️ Why writing {Tab()} (any component) inside JSX is not advisable
+### Why writing {Tab()} (any component) inside JSX is not advisable
 
 In React, components should be rendered using JSX syntax (<Tab />) and not called like regular functions ({Tab()}).
 When you write:
@@ -13,7 +13,7 @@ Effects may re-run incorrectly
 React can only preserve state when it owns the component instance.
 
 
-🙋‍♀️ What is the issue with this code?
+### What is the issue with this code?
 function MyComponent() {
   const [data, setData] = useState(null);
 
@@ -22,7 +22,7 @@ function MyComponent() {
 
 Ans - setState causes re-render → API call again → infinite loop. That's why we have useEffect in picture
 
-🙋‍♀️ Why <a> tag is not used in react application and use Link ?
+### Why <a> tag is not used in react application and use Link ?
  🚀 SHORT ANSWER - because React apps are SPAs and <Link> keeps them fast and state-safe
 
 What happens with a normal <a> tag?
@@ -57,8 +57,7 @@ Under the hood
 
 📝 We should only use a tag when we want to leave our react application like using external websites, emails etc.
 
-
-🙋‍♀️ With react router v6,  Defining route like  <Route  path="/" element={Dashboard} /> doesn't work but 
+### With react router v6,  Defining route like  <Route  path="/" element={Dashboard} /> doesn't work but 
 defining it like  <Route  path="/" element={<Dashboard />} /> work?
 
 Ans - React Router v6 expects element to be a ReactElement
@@ -79,7 +78,7 @@ render(element()); // ❌ it does NOT call your function
 Here, React Router itself would do: React.createElement(Dashboard)
 So you passed the component, and router created the element.
 
-🙋‍♀️ Why is my image not loading in React when using a path like `src="data/img/logo-light.png"`, and what is the correct way to handle images?**
+### Why is my image not loading in React when using a path like `src="data/img/logo-light.png"`, and what is the correct way to handle images?**
 
 Ans: 
 In React (using tools like Vite or CRA), files inside the `src` folder are **not directly accessible via string paths**. When you write:
@@ -101,3 +100,6 @@ This allows the bundler to process and correctly serve the image.
 
 <Img src="/img/logo-light.png" alt="Logo" />
 
+### What is the typeof null?
+
+Ans - Object

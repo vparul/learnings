@@ -261,3 +261,201 @@ products: "wrongName@http://..."
         │ <Products />                 │
         └──────────────────────────────┘
 
+### ---------------------- HOW TO ENABLE SHARING COMMON DEPENDENCIES -------------------------------------
+
+new ModuleFederationPlugin({
+  name: "products",
+  filename: "remoteEntry.js",
+  exposes: {
+    "./ProductsIndex": "./src/index"
+  },
+  shared: ["faker"], // faker will be shared  with other MFEs.
+})
+
+What is shared in Module Federation?
+
+These dependencies can be reused across micro-frontends instead of bundling separate copies
+
+## Syntax
+1. Shorthand
+shared: ["faker"]
+
+Equivalent to:
+
+shared: {
+  faker: { requiredVersion: false }
+}
+
+👉 Loose sharing, minimal control
+
+2. Full Config
+shared: {
+  faker: {
+    singleton: true,
+    requiredVersion: "^5.5.3",
+    eager: false
+  }
+}
+1. singleton
+singleton: true
+
+👉 Ensures only ONE instance of the library exists across all MFEs
+
+Critical for:
+React
+React DOM
+State libraries
+
+Without singleton:
+Multiple instances can load ❌
+Leads to bugs (especially in React)
+
+2. requiredVersion
+requiredVersion: "^5.5.3"
+
+👉 Defines which version your app expects
+
+Behavior:
+If compatible version exists → reuse ✅
+If not → fallback to own version ❗
+
+
+3. eager
+eager: true | false
+
+🚀 eager: false (default)
+eager: false
+
+👉 Lazy loaded (on demand)
+
+Behavior:
+Dependency is NOT loaded upfront
+Loaded only when needed
+Works well with code splitting
+
+Example flow:
+App starts
+  ↓
+faker NOT loaded yet
+  ↓
+Component uses faker
+  ↓
+faker is fetched from shared scope
+
+Pros:
+Smaller initial bundle
+Better performance
+
+Cons:
+Slight delay when module is first used
+
+
+eager: true
+
+👉 Load immediately in initial bundle
+
+Behavior:
+Included in main bundle
+NOT lazily loaded
+Shared module becomes part of startup
+
+Example flow:
+App starts
+  ↓
+faker is already loaded
+  ↓
+No extra request later
+
+Pros:
+No runtime delay
+Useful for critical deps
+
+Cons:
+Bigger initial bundle
+Breaks code splitting benefits
+
+
+#####  eager: true disables async sharing
+
+That means:
+
+Module is bundled directly
+Federation sharing becomes less effective
+
+🧠 When to use eager?
+Use eager: true only when:
+1. Dependency is needed immediately on app load
+2. Small library
+3. You want to avoid async boundary issues
+
+Avoid eager: true when:
+
+1. Large libraries
+2. Performance matters
+3. You want lazy loading
+
+## How Sharing Works at Runtime
+
+1. All apps register shared modules
+2. Shared scope is created
+3. When a module is requested:
+   → Check shared scope
+   → Check version compatibility
+   → Apply singleton rules
+   → Decide:
+        reuse OR fallback
+
+## Common Scenarios
+Scenario 1: Only one app shares
+Remote A → shared faker
+Host → no faker
+
+👉 Result:
+No real sharing
+Remote uses its own copy
+
+Scenario 2: Version mismatch
+Host → ^5.x
+Remote → ^6.x
+
+👉 Result:
+Not compatible ❌
+Each loads its own version
+
+Scenario 3: Singleton + mismatch
+singleton: true
+
+👉 Result:
+Webpack tries to force one version
+May warn ⚠️
+Can break app if incompatible
+
+## Best Practices
+
+$$$ For critical libraries
+shared: {
+  react: {
+    singleton: true,
+    requiredVersion: "^18.2.0"
+  },
+  "react-dom": {
+    singleton: true,
+    requiredVersion: "^18.2.0"
+  }
+}
+
+$$$ For utility libraries (like faker)
+shared: {
+  faker: {
+    singleton: true,
+    requiredVersion: "^5.5.3"
+  }
+}
+
+OR even skip sharing if not needed.
+
+❌ Avoid this in production
+shared: ["faker"]
+
+Too loose → unpredictable behavior
+
