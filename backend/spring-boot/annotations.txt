@@ -511,3 +511,35 @@ an entire HTML document
 a blog post
 
 @Lob tells Hibernate to use a type capable of storing huge amounts of text.
+
+-------------------------------------------------------- @COLUMNDEFAULT Annotation -------------------------------------------------------------------------------------------------
+
+@ColumnDefault specifies a default value for a database column.
+
+@ColumnDefault("ACTIVE")
+private String status;
+
+
+Hibernate can use this to generate something conceptually like:
+
+STATUS VARCHAR(255) DEFAULT 'ACTIVE'
+
+So if you insert a row without providing status, the database can use ACTIVE.
+
+@ColumnDefault is primarily about the database schema, not Java initialization.
+
+Compare:
+@ColumnDefault("0")
+private Integer loginCount;
+
+vs.
+private Integer loginCount = 0;
+
+The first says: Database column should have a default of 0.
+
+The second says: Java object should start with 0.
+
+# Question -> @ColumnDefault("'NEW'") works but @ColumnDefault("NEW") doesnt? Why?
+@ColumnDefault expects a SQL expression, not a Java String value. Hibernate inserts the value you provide directly into the generated DDL.
+@ColumnDefault("'NEW'") generates something like: status varchar(20) default 'NEW'
+@ColumnDefault("NEW") generates status varchar(20) default NEW // The database interprets NEW as an identifier/expression, rather than a string literal. 'NEW' is the SQL string literal.
