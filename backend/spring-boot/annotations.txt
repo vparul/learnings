@@ -543,3 +543,26 @@ The second says: Java object should start with 0.
 @ColumnDefault expects a SQL expression, not a Java String value. Hibernate inserts the value you provide directly into the generated DDL.
 @ColumnDefault("'NEW'") generates something like: status varchar(20) default 'NEW'
 @ColumnDefault("NEW") generates status varchar(20) default NEW // The database interprets NEW as an identifier/expression, rather than a string literal. 'NEW' is the SQL string literal.
+
+-------------------------------------------------------- @MAPPEDSUPERCLASS Annotation -------------------------------------------------------------------------------------------------
+
+@MappedSuperclass is a JPA/Hibernate annotation used when you want multiple entities to share common fields, but you don't want the parent class itself to become a database table.
+
+Simple example
+@MappedSuperclass
+public class BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private LocalDateTime createdAt;
+}
+
+Now:
+
+@Entity
+public class User extends BaseEntity {
+
+    private String name;
+}
