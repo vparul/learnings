@@ -1,6 +1,6 @@
  Generics in Java are a feature that allows classes, interfaces, and methods to operate on different data types while providing compile-time type safety. They allow programmers to write reusable code without specifying a particular data type in advance.
 
-Advantages of Generics
+# Advantages of Generics
 Type safety: Detects type errors at compile time.
 
 Code reusability: The same code can be used with different data types.
@@ -9,18 +9,17 @@ No type casting: Reduces the need for explicit type casting.
 
 Easy maintenance: Makes code more readable and manageable.
 
-class Box<T> {
-    T value;
+public class Printer<T> {
 
-    void set(T value) {
-        this.value = value;
+    public Printer(T item) {
+        this.item = item;
     }
 
-    T get() {
-        return value;
+    public void print() {
+        System.out.println(item);
     }
+
 }
-
 public class Main {
     public static void main(String[] args) {
         Box<Integer> b = new Box<>();
