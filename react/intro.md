@@ -1,5 +1,5 @@
 
-What is react
+## What is react?
 React is an open source javascript library which is used to create single page applications. 
  Characteristics - 
  1. Follow component based architecture - React enables you to create component which can be reused across application
